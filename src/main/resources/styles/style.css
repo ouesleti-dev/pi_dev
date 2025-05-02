@@ -1,0 +1,96 @@
+/* Styles de base pour l'application GoVibe */
+
+.login-pane {
+    -fx-background-color: #f5f5f5;
+}
+
+.title-text {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-fill: #333333;
+}
+
+.input-field {
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-padding: 8px;
+    -fx-pref-height: 35px;
+}
+
+.error-label {
+    -fx-text-fill: #e74c3c;
+    -fx-font-size: 12px;
+}
+
+.login-button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-padding: 10px;
+    -fx-cursor: hand;
+}
+
+.login-button:hover {
+    -fx-background-color: #2980b9;
+}
+
+.register-pane {
+    -fx-background-color: #f5f5f5;
+}
+
+.register-button {
+    -fx-background-color: #2ecc71;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-padding: 10px;
+    -fx-cursor: hand;
+}
+
+.register-button:hover {
+    -fx-background-color: #27ae60;
+}
+
+
+
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #ddd;
+    -fx-border-width: 1px;
+}
+
+.table-view .column-header {
+    -fx-background-color: #f8f9fa;
+    -fx-padding: 10px;
+}
+
+/* Styles pour l'interface Panier */
+.panier-pane {
+    -fx-background-color: #f5f5f5;
+}
+
+Button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-padding: 8px 15px;
+    -fx-cursor: hand;
+}
+
+Button:hover {
+    -fx-background-color: #2980b9;
+}
+
+.table-view .table-row-cell:selected {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+}
+
+TextField {
+    -fx-background-radius: 3px;
+    -fx-border-radius: 3px;
+    -fx-border-color: #ddd;
+    -fx-padding: 5px;
+}

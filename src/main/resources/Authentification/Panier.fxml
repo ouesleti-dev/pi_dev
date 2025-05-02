@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="665.0" prefWidth="954.0" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.PanierController">
+   <children>
+      <TableView fx:id="tableView" layoutX="44.0" layoutY="177.0" prefHeight="279.0" prefWidth="520.0">
+        <columns>
+          <TableColumn fx:id="idEventsColumn" prefWidth="228.0" text="id_events" />
+          <TableColumn fx:id="prixColumn" prefWidth="68.79998779296875" text="     prix" />
+            <TableColumn fx:id="quantiteColumn" prefWidth="72.0" text="quantite" />
+            <TableColumn fx:id="prixTotalColumn" prefWidth="86.39996337890625" text="prix_total" />
+            <TableColumn fx:id="statutColumn" prefWidth="64.0" text="Statut" />
+        </columns>
+      </TableView>
+      <Label layoutX="36.0" layoutY="97.0" text="id_Panier :" />
+      <TextField fx:id="txtidp" layoutX="133.0" layoutY="84.0" prefHeight="26.0" prefWidth="87.0" />
+      <Label layoutX="36.0" layoutY="133.0" text="date_creation :" />
+      <TextField fx:id="txtdc" layoutX="133.0" layoutY="129.0" prefHeight="26.0" prefWidth="87.0" />
+      <Button layoutX="157.0" layoutY="473.0" mnemonicParsing="false" onAction="#Valider" prefHeight="34.0" prefWidth="98.0" text="Valider">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button layoutX="438.0" layoutY="574.0" mnemonicParsing="false" onAction="#Update" text="Mettre à jour son panier " />
+      <Separator layoutX="6.0" layoutY="562.0" prefHeight="12.0" prefWidth="591.0" />
+      <Button layoutX="533.0" layoutY="527.0" mnemonicParsing="false" onAction="#Supprimer" prefHeight="34.0" prefWidth="62.0" text="🗑 ">
+         <font>
+            <Font name="Arial Black" size="44.0" />
+         </font>
+      </Button>
+      <Button layoutX="463.0" layoutY="527.0" mnemonicParsing="false" onAction="#Modifier" prefHeight="34.0" prefWidth="62.0" text="✏" />
+      <Label layoutX="607.0" layoutY="220.0" prefHeight="42.0" prefWidth="110.0" text="        Sommaire" />
+      <Label layoutX="629.0" layoutY="276.0" prefHeight="34.0" prefWidth="139.0" text="Total de la commande :" />
+      <TextField fx:id="txttc" layoutX="781.0" layoutY="280.0" prefHeight="26.0" prefWidth="118.0" />
+      <Separator layoutX="629.0" layoutY="250.0" prefHeight="12.0" prefWidth="284.0" />
+      <Button layoutX="688.0" layoutY="333.0" mnemonicParsing="false" onAction="#Payer" prefHeight="42.0" prefWidth="186.0" text="Payer" />
+      <TextField fx:id="txtcr" layoutX="36.0" layoutY="477.0" prefHeight="26.0" prefWidth="110.0" promptText="Code de réduction" />
+   </children>
+</AnchorPane>
