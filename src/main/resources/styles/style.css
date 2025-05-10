@@ -1,20 +1,51 @@
 /* Styles de base pour l'application GoVibe */
 
 .login-pane {
-    -fx-background-color: #f5f5f5;
+    -fx-background-color: linear-gradient(to bottom right, rgb(52, 152, 219), rgb(155, 89, 182));
 }
 
-.title-text {
-    -fx-font-size: 24px;
+/* Styles pour le conteneur principal du login */
+.login-container {
+    -fx-background-color: white;
+    -fx-background-radius: 15px;
+    -fx-border-radius: 15px;
+    -fx-border-color: #dddddd;
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 15, 0, 0, 5);
+}
+
+/* Styles pour la section avec le logo */
+.logo-section {
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+    -fx-border-width: 0 1px 0 0;
+    -fx-border-style: solid;
+    -fx-border-color: #eeeeee;
+}
+
+/* Styles pour la section avec le formulaire */
+.form-section {
+    -fx-background-color: white;
+}
+
+.welcome-text {
+    -fx-font-size: 32px;
     -fx-font-weight: bold;
-    -fx-fill: #333333;
+    -fx-text-fill: #0077cc;
+}
+
+.login-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #555555;
+    -fx-padding: 0 0 15 0;
 }
 
 .input-field {
-    -fx-background-radius: 5px;
-    -fx-border-radius: 5px;
-    -fx-padding: 8px;
-    -fx-pref-height: 35px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-border-color: #cccccc;
+    -fx-padding: 12px;
+    -fx-pref-height: 40px;
 }
 
 .error-label {
@@ -22,17 +53,29 @@
     -fx-font-size: 12px;
 }
 
+.forgot-password {
+    -fx-text-fill: #555555;
+    -fx-font-size: 12px;
+    -fx-padding: 0;
+    -fx-border-color: transparent;
+    -fx-underline: false;
+}
+
+.forgot-password:hover {
+    -fx-underline: true;
+}
+
 .login-button {
-    -fx-background-color: #3498db;
+    -fx-background-color: #0077cc;
     -fx-text-fill: white;
     -fx-font-weight: bold;
-    -fx-background-radius: 5px;
-    -fx-padding: 10px;
+    -fx-background-radius: 8px;
+    -fx-padding: 12px;
     -fx-cursor: hand;
 }
 
 .login-button:hover {
-    -fx-background-color: #2980b9;
+    -fx-background-color: #005fa3;
 }
 
 .register-pane {

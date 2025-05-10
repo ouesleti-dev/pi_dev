@@ -1,31 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Controllers.LoginController"
-            prefHeight="400.0" prefWidth="600.0"
-            styleClass="login-pane">
-    
-    <VBox alignment="CENTER" spacing="20" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
-          AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0">
-        
-        <Text styleClass="title-text" text="Connexion"/>
-        
-        <VBox spacing="10" maxWidth="300">
-            <TextField fx:id="emailField" promptText="Email" styleClass="input-field"/>
-            <PasswordField fx:id="passwordField" promptText="Mot de passe" styleClass="input-field"/>
-            
-            <Label fx:id="errorLabel" styleClass="error-label" visible="false" textFill="RED"/>
-            
-            <Button text="Se connecter" onAction="#handleLogin" styleClass="login-button" 
-                    maxWidth="Infinity"/>
-            
-            <Hyperlink text="Créer un compte" onAction="#handleRegister" alignment="CENTER"/>
-        </VBox>
-    </VBox>
+<AnchorPane prefHeight="500.0" prefWidth="800.0" styleClass="login-pane" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.LoginController">
+
+    <AnchorPane styleClass="login-container" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0" AnchorPane.bottomAnchor="50.0">
+        <HBox alignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0">
+            <!-- Partie gauche avec le logo -->
+            <VBox alignment="CENTER" prefWidth="300.0" prefHeight="400.0" styleClass="logo-section">
+                <padding>
+                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                </padding>
+                <children>
+                    <ImageView fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@../images/logo.png" />
+                        </image>
+                    </ImageView>
+                </children>
+            </VBox>
+
+            <!-- Partie droite avec le formulaire de connexion -->
+            <VBox alignment="CENTER" prefWidth="400.0" prefHeight="400.0" spacing="15" styleClass="form-section">
+                <padding>
+                    <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                </padding>
+                <children>
+                    <Label styleClass="welcome-text" text="Bienvenue" />
+                    <Label styleClass="login-subtitle" text="Connectez-vous avec votre email" />
+
+                    <VBox spacing="15" maxWidth="300">
+                        <TextField fx:id="emailField" promptText="Email" styleClass="input-field" />
+                        <PasswordField fx:id="passwordField" promptText="Mot de passe" styleClass="input-field" />
+
+                        <Label fx:id="errorLabel" styleClass="error-label" textFill="RED" visible="false" />
+
+                        <Hyperlink styleClass="forgot-password" text="Mot de passe oublié ?" />
+
+                        <Button maxWidth="Infinity" onAction="#handleLogin" styleClass="login-button" text="SE CONNECTER" />
+
+                        <HBox alignment="CENTER">
+                            <Label text="Vous n'avez pas de compte ? " />
+                            <Hyperlink onAction="#handleRegister" text="Inscrivez-vous" />
+                        </HBox>
+                    </VBox>
+                </children>
+            </VBox>
+        </HBox>
+    </AnchorPane>
 </AnchorPane>

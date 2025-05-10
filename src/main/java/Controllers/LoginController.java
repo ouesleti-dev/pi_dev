@@ -2,6 +2,7 @@ package Controllers;
 
 import Models.User;
 import Services.AuthService;
+import Utils.NavigationUtil;
 import Utils.UserValidation;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -133,10 +134,10 @@ public class LoginController {
     @FXML
     private void handleRegister(ActionEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/Authentification/register.fxml"));
-            ((Stage) ((Node) event.getSource()).getScene().getWindow()).setScene(new Scene(root));
+            NavigationUtil.navigateTo(event, "/Authentification/register.fxml", "GoVibe - Inscription");
         } catch (Exception e) {
-            showError("Erreur de redirection");
+            showError("Erreur de redirection: " + e.getMessage());
+            e.printStackTrace(); // Pour voir l'erreur complète dans la console
         }
     }
 }

@@ -34,12 +34,15 @@ public class Main extends Application {
         try {
             URL cssUrl = getClass().getResource("/styles/style.css");
             if (cssUrl != null) {
+                scene.getStylesheets().clear(); // Supprimer tous les styles précédents
                 scene.getStylesheets().add(cssUrl.toExternalForm());
+                System.out.println("CSS chargé avec succès : " + cssUrl.toExternalForm());
             } else {
                 System.out.println("Attention : Le fichier CSS n'a pas été trouvé");
             }
         } catch (Exception e) {
             System.out.println("Erreur lors du chargement du CSS : " + e.getMessage());
+            e.printStackTrace();
         }
 
         primaryStage.setTitle("GoVibe - Connexion");
