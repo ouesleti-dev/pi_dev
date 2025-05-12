@@ -78,16 +78,33 @@ public class PanierService implements IService<Panier> {
              ResultSet rs = stmt.executeQuery(req)) {
 
             while (rs.next()) {
-                Panier panier = new Panier(
-                        rs.getInt("id_events"),
-                        rs.getInt("prix"),
-                        rs.getInt("quantite")
-                );
-                panier.setId_panier(rs.getInt("id_panier"));
-                panier.setStatut(Panier.Statut.valueOf(rs.getString("statut")));
-                panier.setDate_creation(rs.getTimestamp("date_creation"));
+                try {
+                    Panier panier = new Panier(
+                            rs.getInt("id_events"),
+                            rs.getInt("prix"),
+                            rs.getInt("quantite")
+                    );
+                    panier.setId_panier(rs.getInt("id_panier"));
 
-                paniers.add(panier);
+                    // Gérer le cas où le statut est null ou invalide
+                    String statutStr = rs.getString("statut");
+                    if (statutStr != null && !statutStr.isEmpty()) {
+                        try {
+                            panier.setStatut(Panier.Statut.valueOf(statutStr));
+                        } catch (IllegalArgumentException e) {
+                            System.err.println("Statut invalide dans la base de données: " + statutStr);
+                            panier.setStatut(Panier.Statut.ABONDONNE); // Valeur par défaut
+                        }
+                    } else {
+                        panier.setStatut(Panier.Statut.ABONDONNE); // Valeur par défaut
+                    }
+
+                    panier.setDate_creation(rs.getTimestamp("date_creation"));
+                    paniers.add(panier);
+                } catch (Exception e) {
+                    System.err.println("Erreur lors de la lecture d'un panier: " + e.getMessage());
+                    // Continuer avec le panier suivant
+                }
             }
         }
         return paniers;

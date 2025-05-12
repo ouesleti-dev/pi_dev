@@ -1,0 +1,196 @@
+/* Styles pour l'interface Panier inspirés du design moderne */
+
+.root {
+  font-family: Arial, sans-serif;
+  -fx-background-color: white;
+  -fx-text-fill: #333;
+}
+
+.navbar {
+  -fx-background-color: white;
+  -fx-border-color: #ddd;
+  -fx-border-width: 0 0 1 0;
+  -fx-padding: 10 20 10 20;
+}
+
+.nav-links {
+  -fx-spacing: 15;
+}
+
+.nav-icons {
+  -fx-spacing: 15;
+}
+
+.cart-container {
+  -fx-padding: 20;
+  -fx-max-width: 800;
+}
+
+.cart-title {
+  -fx-font-size: 18;
+  -fx-font-weight: bold;
+}
+
+.subtitle {
+  -fx-text-fill: #777;
+  -fx-font-size: 12;
+}
+
+.checkout-btn {
+  -fx-background-color: black;
+  -fx-text-fill: white;
+  -fx-padding: 8 15;
+  -fx-cursor: hand;
+  -fx-background-radius: 0;
+}
+
+.checkout-btn:hover {
+  -fx-background-color: #333;
+}
+
+.cart-item {
+  -fx-border-color: #eee;
+  -fx-border-width: 1 0 0 0;
+  -fx-padding: 15 0;
+}
+
+.product-img {
+  -fx-fit-width: 100;
+  -fx-preserve-ratio: true;
+}
+
+.item-details {
+  -fx-spacing: 5;
+}
+
+.item-title {
+  -fx-font-size: 16;
+  -fx-font-weight: bold;
+}
+
+.item-description {
+  -fx-font-size: 12;
+  -fx-text-fill: #555;
+}
+
+.item-controls {
+  -fx-spacing: 5;
+  -fx-padding: 5 0 0 0;
+}
+
+.item-price {
+  -fx-font-weight: bold;
+  -fx-font-size: 14;
+}
+
+.remove-btn {
+  -fx-background-color: #fdd;
+  -fx-border-color: #f99;
+  -fx-text-fill: #900;
+  -fx-padding: 3 8;
+  -fx-cursor: hand;
+  -fx-background-radius: 3;
+  -fx-border-radius: 3;
+}
+
+.remove-btn:hover {
+  -fx-background-color: #fcc;
+}
+
+.summary {
+  -fx-border-color: #eee;
+  -fx-border-width: 1 0 0 0;
+  -fx-padding: 15 0 0 0;
+  -fx-spacing: 8;
+}
+
+.summary-row {
+  -fx-alignment: space-between;
+}
+
+.summary-total {
+  -fx-font-size: 16;
+  -fx-font-weight: bold;
+}
+
+/* Styles pour les éléments existants */
+.table-view {
+  -fx-background-color: white;
+  -fx-border-color: #eee;
+  -fx-border-width: 1;
+}
+
+.table-view .column-header {
+  -fx-background-color: #f8f9fa;
+  -fx-padding: 10;
+}
+
+.table-view .table-row-cell:selected {
+  -fx-background-color: #f0f0f0;
+  -fx-text-fill: black;
+}
+
+.table-view .table-row-cell:hover {
+  -fx-background-color: #f5f5f5;
+}
+
+.text-field {
+  -fx-background-radius: 3;
+  -fx-border-radius: 3;
+  -fx-border-color: #ddd;
+  -fx-padding: 5;
+}
+
+.action-button {
+  -fx-background-color: black;
+  -fx-text-fill: white;
+  -fx-font-weight: bold;
+  -fx-background-radius: 0;
+  -fx-padding: 8 15;
+  -fx-cursor: hand;
+}
+
+.action-button:hover {
+  -fx-background-color: #333;
+}
+
+.update-button {
+  -fx-background-color: #555;
+}
+
+.update-button:hover {
+  -fx-background-color: #444;
+}
+
+.pay-button {
+  -fx-background-color: #e74c3c;
+  -fx-text-fill: white;
+  -fx-font-weight: bold;
+  -fx-background-radius: 0;
+  -fx-padding: 10 20;
+  -fx-cursor: hand;
+}
+
+.pay-button:hover {
+  -fx-background-color: #c0392b;
+}
+
+.validate-button {
+  -fx-background-color: #2ecc71;
+  -fx-text-fill: white;
+  -fx-background-radius: 0;
+}
+
+.validate-button:hover {
+  -fx-background-color: #27ae60;
+}
+
+.delete-button {
+  -fx-background-color: #e74c3c;
+  -fx-text-fill: white;
+  -fx-background-radius: 0;
+}
+
+.delete-button:hover {
+  -fx-background-color: #c0392b;
+}

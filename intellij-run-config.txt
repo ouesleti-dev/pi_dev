@@ -1,0 +1,13 @@
+Pour corriger l'erreur JavaFX dans IntelliJ IDEA:
+
+1. Ouvrez votre projet dans IntelliJ IDEA
+2. Allez dans Run > Edit Configurations
+3. Sélectionnez votre configuration de lancement ou créez une nouvelle configuration Application
+4. Définissez la classe principale (Main class) à "Main.Main"
+5. Dans le champ "VM options", ajoutez:
+   --module-path "${user.home}/.m2/repository/org/openjfx/javafx-controls/17.0.2;${user.home}/.m2/repository/org/openjfx/javafx-fxml/17.0.2;${user.home}/.m2/repository/org/openjfx/javafx-graphics/17.0.2;${user.home}/.m2/repository/org/openjfx/javafx-base/17.0.2" --add-modules=javafx.controls,javafx.fxml,javafx.graphics
+
+6. Cliquez sur "Apply" et "OK"
+7. Lancez votre application
+
+Cela devrait résoudre l'erreur "impossible de trouver ou de charger la classe principale javafx.controls,javafx.fxml,javafx.graphics".

@@ -6,6 +6,8 @@ import Services.StripeService;
 import Utils.MyDb;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -41,22 +43,19 @@ public class PanierController implements Initializable {
     private TextField txttc;
 
     @FXML
-    private TableView<Panier> tableView;
+    private TextField searchField;
 
     @FXML
-    private TableColumn<Panier, Integer> idEventsColumn;
+    private Label subtotalLabel;
 
     @FXML
-    private TableColumn<Panier, Integer> prixColumn;
+    private Label vatLabel;
 
     @FXML
-    private TableColumn<Panier, Integer> quantiteColumn;
+    private Label totalLabel;
 
     @FXML
-    private TableColumn<Panier, Integer> prixTotalColumn;
-
-    @FXML
-    private TableColumn<Panier, String> statutColumn;
+    private ListView<Panier> panierListView;
 
     private PanierService panierService;
     private ObservableList<Panier> panierList;
@@ -70,15 +69,15 @@ public class PanierController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        idEventsColumn.setCellValueFactory(new PropertyValueFactory<>("id_events"));
-        prixColumn.setCellValueFactory(new PropertyValueFactory<>("prix"));
-        quantiteColumn.setCellValueFactory(new PropertyValueFactory<>("quantite"));
-        prixTotalColumn.setCellValueFactory(new PropertyValueFactory<>("prix_total"));
-        statutColumn.setCellValueFactory(new PropertyValueFactory<>("statut"));
+        // Configurer la ListView avec une cellule personnalisée
+        panierListView.setCellFactory(param -> new PanierListCell());
 
         loadPanierData();
 
-        tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+        // Initialiser la barre de recherche en temps réel
+        setupSearchField();
+
+        panierListView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 txtidp.setText(String.valueOf(newSelection.getId_panier()));
                 txtdc.setText(newSelection.getDate_creation().toString());
@@ -86,21 +85,105 @@ public class PanierController implements Initializable {
         });
     }
 
+    private void setupSearchField() {
+        // Créer une FilteredList wrapée autour de l'ObservableList
+        FilteredList<Panier> filteredData = new FilteredList<>(panierList, p -> true);
+
+        // Ajouter un listener au champ de recherche pour mettre à jour le filtre en temps réel
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(panier -> {
+                // Si le champ de recherche est vide, afficher tous les paniers
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Convertir le texte de recherche en minuscules pour une recherche insensible à la casse
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                // Comparer les champs du panier avec le texte de recherche
+                if (String.valueOf(panier.getId_events()).toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Correspondance sur l'ID de l'événement
+                } else if (String.valueOf(panier.getPrix()).toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Correspondance sur le prix
+                } else if (String.valueOf(panier.getQuantite()).toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Correspondance sur la quantité
+                } else if (String.valueOf(panier.getPrix_total()).toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Correspondance sur le prix total
+                } else if (panier.getStatut().toString().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Correspondance sur le statut
+                }
+                return false; // Pas de correspondance
+            });
+
+            // Mettre à jour le résumé en fonction des éléments filtrés
+            updateSummary(filteredData);
+        });
+
+        // Ajouter les données filtrées à la ListView
+        panierListView.setItems(filteredData);
+    }
+
+    private void updateSummary(FilteredList<Panier> filteredData) {
+        // Calculer le total des éléments filtrés
+        int total = 0;
+        for (Panier panier : filteredData) {
+            total += panier.getPrix_total();
+        }
+
+        // Mettre à jour les labels de résumé
+        txttc.setText(String.valueOf(total));
+        subtotalLabel.setText(String.format("%.2f €", (double)total));
+
+        // Calculer la TVA (4%)
+        double vat = total * 0.04;
+        vatLabel.setText(String.format("%.2f €", vat));
+
+        // Calculer le total avec TVA
+        double totalWithVat = total + vat;
+        totalLabel.setText(String.format("%.2f €", totalWithVat));
+    }
+
+    @FXML
+    private void handleSearch(ActionEvent event) {
+        // La recherche est déjà gérée par le listener sur le champ de recherche
+        // Cette méthode est appelée lorsque l'utilisateur clique sur le bouton Rechercher
+        System.out.println("Recherche en cours: " + searchField.getText());
+    }
+
     private void loadPanierData() {
         try {
             List<Panier> paniers = panierService.Display();
-            panierList.clear();
+            if (panierList == null) {
+                panierList = FXCollections.observableArrayList();
+            } else {
+                panierList.clear();
+            }
             panierList.addAll(paniers);
-            tableView.setItems(panierList);
+            panierListView.setItems(panierList);
 
             int total = paniers.stream().mapToInt(Panier::getPrix_total).sum();
             txttc.setText(String.valueOf(total));
 
+            // Mettre à jour les labels de résumé
+            subtotalLabel.setText(String.format("%.2f €", (double)total));
+
+            // Calculer la TVA (4%)
+            double vat = total * 0.04;
+            vatLabel.setText(String.format("%.2f €", vat));
+
+            // Calculer le total avec TVA
+            double totalWithVat = total + vat;
+            totalLabel.setText(String.format("%.2f €", totalWithVat));
+
             if (!panierList.isEmpty()) {
-                tableView.getSelectionModel().selectFirst();
+                panierListView.getSelectionModel().selectFirst();
                 Panier premierPanier = panierList.get(0);
                 txtidp.setText(String.valueOf(premierPanier.getId_panier()));
-                txtdc.setText(premierPanier.getDate_creation().toString());
+                if (premierPanier.getDate_creation() != null) {
+                    txtdc.setText(premierPanier.getDate_creation().toString());
+                } else {
+                    txtdc.setText("Date non disponible");
+                }
             } else {
                 txtidp.setText("");
                 txtdc.setText("");
@@ -113,7 +196,7 @@ public class PanierController implements Initializable {
 
     @FXML
     void Modifier(ActionEvent event) {
-        Panier selectedPanier = tableView.getSelectionModel().getSelectedItem();
+        Panier selectedPanier = panierListView.getSelectionModel().getSelectedItem();
         if (selectedPanier == null) {
             showAlert(Alert.AlertType.WARNING, "Aucune sélection", "Aucun article sélectionné",
                     "Veuillez sélectionner un article à modifier.");
@@ -159,7 +242,7 @@ public class PanierController implements Initializable {
 
     @FXML
     void Payer(ActionEvent event) {
-        if (panierList.isEmpty()) {
+        if (panierList == null || panierList.isEmpty()) {
             showAlert(Alert.AlertType.WARNING, "Panier vide", "Aucun article dans le panier", "Votre panier est vide. Impossible de procéder au paiement.");
             return;
         }
@@ -202,7 +285,7 @@ public class PanierController implements Initializable {
                     paiementController.setMontantTotal(totalFinal);
 
                     // Si un panier est sélectionné, utiliser ses informations
-                    Panier selectedPanier = tableView.getSelectionModel().getSelectedItem();
+                    Panier selectedPanier = panierListView.getSelectionModel().getSelectedItem();
                     if (selectedPanier != null) {
                         paiementController.setPanierId(selectedPanier.getId_panier());
                         paiementController.setDateCreation(selectedPanier.getDate_creation());
@@ -279,7 +362,7 @@ public class PanierController implements Initializable {
 
     @FXML
     void Supprimer(ActionEvent event) {
-        Panier selectedPanier = tableView.getSelectionModel().getSelectedItem();
+        Panier selectedPanier = panierListView.getSelectionModel().getSelectedItem();
         if (selectedPanier == null) {
             showAlert(Alert.AlertType.WARNING, "Aucune sélection", "Aucun article sélectionné",
                     "Veuillez sélectionner un article à supprimer.");
@@ -328,6 +411,17 @@ public class PanierController implements Initializable {
             double totalAvecReduction = totalSansReduction * (1 - reduction);
 
             txttc.setText(String.format("%.2f", totalAvecReduction));
+
+            // Mettre à jour les labels de résumé
+            subtotalLabel.setText(String.format("%.2f €", totalAvecReduction));
+
+            // Calculer la TVA (4%)
+            double vat = totalAvecReduction * 0.04;
+            vatLabel.setText(String.format("%.2f €", vat));
+
+            // Calculer le total avec TVA
+            double totalWithVat = totalAvecReduction + vat;
+            totalLabel.setText(String.format("%.2f €", totalWithVat));
 
             showAlert(Alert.AlertType.INFORMATION, "Code de réduction", "La réduction est validée",
                       "Le code de réduction GOVIBE10 a été appliqué (10% de réduction).\n" +

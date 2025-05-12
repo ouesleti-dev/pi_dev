@@ -1,6 +1,7 @@
 package Services;
 
 import com.stripe.Stripe;
+import com.stripe.exception.ApiException;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
 import com.stripe.model.PaymentIntent;
@@ -12,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class StripeService {
+    // Clés de test Stripe (ne pas utiliser en production)
     private static final String API_PUBLIC_KEY = "pk_test_51RMdw0CZSaQeTZHr6LBemzHMICOF7uN3qlB9Hv8emTXwFBPZUWwewRulrgGWRbUquMeRNpPrk7oNVqDtTi9VPIAX00ZgNBo9vm";
     private static final String API_SECRET_KEY = "sk_test_51RMdw0CZSaQeTZHrN8uGMLklaUXa5vGII4ZvSQ6z2nc7fulTT734GIjpNuBPl35rMOrVPId1wS0tuxI2ReAFliu200v9LdKyor";
 
@@ -117,26 +119,34 @@ public class StripeService {
         System.out.println("Début du traitement du paiement Stripe: " + description);
         System.out.println("Montant: " + amount + " centimes " + currency);
 
-        // Utiliser l'API Stripe de manière plus simple
-        Map<String, Object> params = new HashMap<>();
-        params.put("amount", amount);
-        params.put("currency", currency);
-        params.put("description", description);
+        try {
+            // Utiliser l'API Stripe de manière plus simple
+            Map<String, Object> params = new HashMap<>();
+            params.put("amount", amount);
+            params.put("currency", currency);
+            params.put("description", description);
 
-        // Utiliser une source de paiement de test directement
-        params.put("source", "tok_visa"); // Token de carte Visa de test
+            // Utiliser une source de paiement de test directement
+            params.put("source", "tok_visa"); // Token de carte Visa de test
 
-        // Créer la charge directement (plus simple que PaymentIntent pour les tests)
-        com.stripe.model.Charge charge = com.stripe.model.Charge.create(params);
+            // Créer la charge directement (plus simple que PaymentIntent pour les tests)
+            com.stripe.model.Charge charge = com.stripe.model.Charge.create(params);
 
-        System.out.println("Charge créée avec ID: " + charge.getId());
-        System.out.println("Statut de la charge: " + charge.getStatus());
+            System.out.println("Charge créée avec ID: " + charge.getId());
+            System.out.println("Statut de la charge: " + charge.getStatus());
 
-        // Vérifier le statut
-        boolean success = "succeeded".equals(charge.getStatus());
-        System.out.println("Résultat du paiement: " + (success ? "Réussi" : "Échec"));
+            // Vérifier le statut
+            boolean success = "succeeded".equals(charge.getStatus());
+            System.out.println("Résultat du paiement: " + (success ? "Réussi" : "Échec"));
 
-        return success;
+            return success;
+        } catch (StripeException e) {
+            System.err.println("Erreur Stripe: " + e.getMessage());
+            throw e; // Relancer l'exception pour qu'elle soit gérée par l'appelant
+        } catch (Exception e) {
+            System.err.println("Erreur inattendue: " + e.getMessage());
+            throw new ApiException("Erreur inattendue lors du traitement du paiement", null, null, null, e);
+        }
     }
 
     /**

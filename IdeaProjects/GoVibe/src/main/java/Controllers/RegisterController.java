@@ -1,7 +1,6 @@
 package Controllers;
 
 import Models.User;
-import Services.AuthService;
 import Utils.UserValidation;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

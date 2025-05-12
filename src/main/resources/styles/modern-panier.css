@@ -1,0 +1,192 @@
+/* Styles modernes pour l'interface Panier */
+
+.root {
+    -fx-background-color: #f8f9fa;
+    -fx-font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.header {
+    -fx-background-color: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 3);
+    -fx-padding: 15px;
+}
+
+.header-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+.cart-container {
+    -fx-background-color: white;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 3);
+    -fx-padding: 20px;
+}
+
+.section-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+    -fx-padding: 0 0 10px 0;
+}
+
+.table-view {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-table-cell-border-color: transparent;
+}
+
+.table-view .column-header {
+    -fx-background-color: #f8f9fa;
+    -fx-font-weight: bold;
+    -fx-padding: 10px;
+    -fx-border-color: transparent transparent #e9ecef transparent;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: transparent;
+}
+
+.table-view .table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: transparent transparent #f1f3f5 transparent;
+}
+
+.table-view .table-row-cell:selected {
+    -fx-background-color: #e9f5ff;
+    -fx-text-fill: #333333;
+}
+
+.table-view .table-row-cell:hover {
+    -fx-background-color: #f1f9ff;
+}
+
+.text-field {
+    -fx-background-color: white;
+    -fx-border-color: #ced4da;
+    -fx-border-radius: 4px;
+    -fx-padding: 8px;
+}
+
+.text-field:focused {
+    -fx-border-color: #4dabf7;
+    -fx-effect: dropshadow(three-pass-box, rgba(77, 171, 247, 0.25), 5, 0, 0, 0);
+}
+
+.button {
+    -fx-background-radius: 4px;
+    -fx-cursor: hand;
+    -fx-padding: 8px 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.primary-button {
+    -fx-background-color: #4dabf7;
+}
+
+.primary-button:hover {
+    -fx-background-color: #339af0;
+}
+
+.success-button {
+    -fx-background-color: #51cf66;
+}
+
+.success-button:hover {
+    -fx-background-color: #40c057;
+}
+
+.danger-button {
+    -fx-background-color: #ff6b6b;
+}
+
+.danger-button:hover {
+    -fx-background-color: #fa5252;
+}
+
+.warning-button {
+    -fx-background-color: #fcc419;
+}
+
+.warning-button:hover {
+    -fx-background-color: #fab005;
+}
+
+.pay-button {
+    -fx-background-color: #4dabf7;
+    -fx-font-size: 16px;
+    -fx-padding: 12px 24px;
+}
+
+.pay-button:hover {
+    -fx-background-color: #339af0;
+}
+
+.summary-box {
+    -fx-background-color: #f8f9fa;
+    -fx-background-radius: 8px;
+    -fx-padding: 15px;
+    -fx-border-color: #e9ecef;
+    -fx-border-radius: 8px;
+}
+
+.summary-row {
+    -fx-padding: 5px 0;
+}
+
+.summary-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #495057;
+}
+
+.summary-value {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #212529;
+}
+
+.total-row {
+    -fx-padding: 10px 0 5px 0;
+    -fx-border-color: transparent transparent #e9ecef transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.total-label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #212529;
+}
+
+.total-value {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #212529;
+}
+
+.separator {
+    -fx-background-color: #e9ecef;
+}
+
+.action-bar {
+    -fx-spacing: 10px;
+    -fx-padding: 15px 0;
+}
+
+.discount-box {
+    -fx-spacing: 10px;
+    -fx-padding: 10px;
+    -fx-background-color: #f1f3f5;
+    -fx-background-radius: 4px;
+}
+
+.discount-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #495057;
+}
+
+.date-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #495057;
+}

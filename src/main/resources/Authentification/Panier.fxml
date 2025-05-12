@@ -1,59 +1,147 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="665.0" prefWidth="954.0" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.PanierController">
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" stylesheets="@../styles/modern-search.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.PanierController">
    <children>
-      <TableView fx:id="tableView" layoutX="44.0" layoutY="177.0" prefHeight="279.0" prefWidth="520.0">
-        <columns>
-          <TableColumn fx:id="idEventsColumn" prefWidth="228.0" text="id_events" />
-          <TableColumn fx:id="prixColumn" prefWidth="68.79998779296875" text="     prix" />
-            <TableColumn fx:id="quantiteColumn" prefWidth="72.0" text="quantite" />
-            <TableColumn fx:id="prixTotalColumn" prefWidth="86.39996337890625" text="prix_total" />
-            <TableColumn fx:id="statutColumn" prefWidth="64.0" text="Statut" />
-        </columns>
-      </TableView>
-      <Label layoutX="36.0" layoutY="97.0" text="id_Panier :" />
-      <TextField fx:id="txtidp" layoutX="133.0" layoutY="84.0" prefHeight="26.0" prefWidth="87.0" />
-      <Label layoutX="36.0" layoutY="133.0" text="date_creation :" />
-      <TextField fx:id="txtdc" layoutX="133.0" layoutY="129.0" prefHeight="26.0" prefWidth="87.0" />
-      <Button layoutX="157.0" layoutY="473.0" mnemonicParsing="false" onAction="#Valider" prefHeight="34.0" prefWidth="98.0" style="-fx-background-color: #e74c3c;" text="Valider" textFill="WHITE">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
-      <Button layoutX="423.0" layoutY="574.0" mnemonicParsing="false" onAction="#Update" prefHeight="34.0" prefWidth="210.0" style="-fx-background-color: #e74c3c;" text="Mettre à jour son panier" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Button>
-      <Separator layoutX="6.0" layoutY="562.0" prefHeight="12.0" prefWidth="591.0" />
-      <Button layoutX="533.0" layoutY="527.0" mnemonicParsing="false" onAction="#Supprimer" prefHeight="34.0" prefWidth="100.0" style="-fx-background-color: #e74c3c;" text="Supprimer" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Button>
-      <Button layoutX="423.0" layoutY="527.0" mnemonicParsing="false" onAction="#Modifier" prefHeight="34.0" prefWidth="100.0" style="-fx-background-color: #e74c3c;" text="Modifier" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Button>
-      <Label layoutX="607.0" layoutY="220.0" prefHeight="42.0" prefWidth="110.0" text="        Sommaire" />
-      <Label layoutX="629.0" layoutY="276.0" prefHeight="34.0" prefWidth="139.0" text="Total de la commande :" />
-      <TextField fx:id="txttc" layoutX="781.0" layoutY="280.0" prefHeight="26.0" prefWidth="118.0" />
-      <Separator layoutX="629.0" layoutY="250.0" prefHeight="12.0" prefWidth="284.0" />
-      <Button layoutX="688.0" layoutY="333.0" mnemonicParsing="false" onAction="#Payer" prefHeight="42.0" prefWidth="186.0" style="-fx-background-color: #e74c3c;" text="Payer" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="16.0" />
-         </font>
-      </Button>
-      <TextField fx:id="txtcr" layoutX="36.0" layoutY="477.0" prefHeight="26.0" prefWidth="110.0" promptText="Code de réduction" />
+      <BorderPane layoutX="14.0" layoutY="14.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <VBox spacing="20.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label text="Mon Panier" styleClass="header-title">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  
+                  <!-- Barre de recherche moderne -->
+                  <HBox styleClass="search-container" alignment="CENTER_LEFT">
+                     <children>
+                        <Label text="🔍" styleClass="search-icon" />
+                        <TextField fx:id="searchField" promptText="Rechercher dans votre panier..." styleClass="search-field" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="30.0" right="30.0" top="20.0" />
+               </padding>
+            </VBox>
+         </top>
+         
+         <center>
+            <HBox spacing="20.0" BorderPane.alignment="CENTER">
+               <children>
+                  <!-- Colonne gauche: Liste des articles -->
+                  <VBox spacing="15.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <!-- Champs cachés pour les données -->
+                        <HBox visible="false">
+                           <children>
+                              <TextField fx:id="txtidp" />
+                              <TextField fx:id="txtdc" />
+                           </children>
+                        </HBox>
+                        
+                        <!-- Liste des articles -->
+                        <ListView fx:id="panierListView" VBox.vgrow="ALWAYS" />
+                        
+                        <!-- Code de réduction -->
+                        <HBox spacing="10.0" alignment="CENTER_LEFT">
+                           <children>
+                              <TextField fx:id="txtcr" prefHeight="30.0" prefWidth="200.0" promptText="Code de réduction" />
+                              <Button mnemonicParsing="false" onAction="#Valider" style="-fx-background-color: #e74c3c;" text="Appliquer" textFill="WHITE" />
+                           </children>
+                        </HBox>
+                        
+                        <!-- Boutons d'action -->
+                        <HBox styleClass="action-buttons">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#Modifier" style="-fx-background-color: #3498db;" text="Modifier" textFill="WHITE" />
+                              <Button mnemonicParsing="false" onAction="#Supprimer" style="-fx-background-color: #e74c3c;" text="Supprimer" textFill="WHITE" />
+                              <Button mnemonicParsing="false" onAction="#Update" style="-fx-background-color: #2ecc71;" text="Rafraîchir" textFill="WHITE" />
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="20.0" left="0.0" right="0.0" top="0.0" />
+                     </padding>
+                  </VBox>
+                  
+                  <!-- Colonne droite: Résumé et paiement -->
+                  <VBox prefWidth="300.0" spacing="15.0">
+                     <children>
+                        <!-- Résumé de la commande -->
+                        <VBox styleClass="summary-container">
+                           <children>
+                              <Label styleClass="summary-title" text="Résumé de la commande" />
+                              <Separator />
+                              
+                              <!-- Sous-total -->
+                              <HBox styleClass="summary-row" alignment="CENTER">
+                                 <children>
+                                    <Label styleClass="summary-label" text="Sous-total" HBox.hgrow="ALWAYS" />
+                                    <Label fx:id="subtotalLabel" styleClass="summary-value" text="0.00 €" />
+                                 </children>
+                              </HBox>
+                              
+                              <!-- Livraison -->
+                              <HBox styleClass="summary-row" alignment="CENTER">
+                                 <children>
+                                    <Label styleClass="summary-label" text="Livraison" HBox.hgrow="ALWAYS" />
+                                    <Label styleClass="summary-value" text="Gratuite" />
+                                 </children>
+                              </HBox>
+                              
+                              <!-- TVA -->
+                              <HBox styleClass="summary-row" alignment="CENTER">
+                                 <children>
+                                    <Label styleClass="summary-label" text="TVA (4%)" HBox.hgrow="ALWAYS" />
+                                    <Label fx:id="vatLabel" styleClass="summary-value" text="0.00 €" />
+                                 </children>
+                              </HBox>
+                              
+                              <Separator />
+                              
+                              <!-- Total -->
+                              <HBox styleClass="total-row" alignment="CENTER">
+                                 <children>
+                                    <Label styleClass="total-label" text="Total" HBox.hgrow="ALWAYS" />
+                                    <Label fx:id="totalLabel" styleClass="total-value" text="0.00 €" />
+                                 </children>
+                              </HBox>
+                              
+                              <!-- Champ total (caché visuellement mais utilisé par le contrôleur) -->
+                              <TextField fx:id="txttc" visible="false" />
+                              
+                              <!-- Bouton de paiement -->
+                              <Button mnemonicParsing="false" onAction="#Payer" styleClass="pay-button" text="Procéder au paiement">
+                                 <VBox.margin>
+                                    <Insets top="20.0" />
+                                 </VBox.margin>
+                              </Button>
+                           </children>
+                           <padding>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
+               </padding>
+            </HBox>
+         </center>
+      </BorderPane>
    </children>
 </AnchorPane>

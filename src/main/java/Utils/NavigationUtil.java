@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 
 /**
  * Classe utilitaire pour gérer la navigation entre les pages
@@ -25,17 +26,29 @@ public class NavigationUtil {
         FXMLLoader loader = new FXMLLoader(NavigationUtil.class.getResource(fxmlPath));
         Parent root = loader.load();
         Scene scene = new Scene(root);
-        
-        // Appliquer les styles CSS
+
+        // Appliquer les styles CSS de base
         String cssPath = "/styles/style.css";
-        scene.getStylesheets().add(NavigationUtil.class.getResource(cssPath).toExternalForm());
-        
+        URL cssUrl = NavigationUtil.class.getResource(cssPath);
+        if (cssUrl != null) {
+            scene.getStylesheets().add(cssUrl.toExternalForm());
+        }
+
+        // Appliquer le CSS spécifique pour le panier si nécessaire
+        if (fxmlPath.contains("Panier.fxml")) {
+            String panierCssPath = "/styles/panier-style.css";
+            URL panierCssUrl = NavigationUtil.class.getResource(panierCssPath);
+            if (panierCssUrl != null) {
+                scene.getStylesheets().add(panierCssUrl.toExternalForm());
+            }
+        }
+
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setTitle(title);
         stage.setScene(scene);
         stage.show();
     }
-    
+
     /**
      * Récupère le contrôleur de la page chargée
      * @param event L'événement qui a déclenché la navigation
@@ -48,16 +61,28 @@ public class NavigationUtil {
         FXMLLoader loader = new FXMLLoader(NavigationUtil.class.getResource(fxmlPath));
         Parent root = loader.load();
         Scene scene = new Scene(root);
-        
-        // Appliquer les styles CSS
+
+        // Appliquer les styles CSS de base
         String cssPath = "/styles/style.css";
-        scene.getStylesheets().add(NavigationUtil.class.getResource(cssPath).toExternalForm());
-        
+        URL cssUrl = NavigationUtil.class.getResource(cssPath);
+        if (cssUrl != null) {
+            scene.getStylesheets().add(cssUrl.toExternalForm());
+        }
+
+        // Appliquer le CSS spécifique pour le panier si nécessaire
+        if (fxmlPath.contains("Panier.fxml")) {
+            String panierCssPath = "/styles/panier-style.css";
+            URL panierCssUrl = NavigationUtil.class.getResource(panierCssPath);
+            if (panierCssUrl != null) {
+                scene.getStylesheets().add(panierCssUrl.toExternalForm());
+            }
+        }
+
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setTitle(title);
         stage.setScene(scene);
         stage.show();
-        
+
         return loader.getController();
     }
 }

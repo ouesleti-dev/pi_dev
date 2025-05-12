@@ -1,0 +1,147 @@
+/* Styles pour la barre de recherche moderne */
+.search-container {
+    -fx-background-color: white;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-color: #e0e0e0;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);
+    -fx-padding: 5px 15px;
+}
+
+.search-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-prompt-text-fill: #aaaaaa;
+    -fx-font-size: 14px;
+}
+
+.search-field:focused {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.search-icon {
+    -fx-fill: #aaaaaa;
+}
+
+/* Styles pour la ListView personnalisée */
+.list-view {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 10px;
+}
+
+.list-cell {
+    -fx-background-color: white;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-padding: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);
+    -fx-margin: 0 0 10px 0;
+}
+
+.list-cell:selected {
+    -fx-background-color: #f0f7ff;
+    -fx-text-fill: black;
+}
+
+.list-cell:hover {
+    -fx-background-color: #f5f9ff;
+}
+
+.list-cell .item-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.list-cell .item-price {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e74c3c;
+}
+
+.list-cell .item-details {
+    -fx-font-size: 12px;
+    -fx-text-fill: #666666;
+}
+
+.list-cell .item-status {
+    -fx-font-size: 12px;
+    -fx-padding: 3px 8px;
+    -fx-background-radius: 10px;
+    -fx-text-fill: white;
+}
+
+.status-valide {
+    -fx-background-color: #2ecc71;
+}
+
+.status-abondonne {
+    -fx-background-color: #e74c3c;
+}
+
+/* Styles pour les boutons d'action */
+.action-buttons {
+    -fx-spacing: 10px;
+    -fx-padding: 15px 0;
+}
+
+/* Styles pour le résumé */
+.summary-container {
+    -fx-background-color: white;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-padding: 15px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);
+}
+
+.summary-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 10px 0;
+}
+
+.summary-row {
+    -fx-padding: 5px 0;
+}
+
+.summary-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #666666;
+}
+
+.summary-value {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+.total-row {
+    -fx-padding: 10px 0 5px 0;
+    -fx-border-color: transparent transparent #e0e0e0 transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.total-label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.total-value {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e74c3c;
+}
+
+.pay-button {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 20px;
+    -fx-padding: 10px 20px;
+    -fx-cursor: hand;
+}
+
+.pay-button:hover {
+    -fx-background-color: #c0392b;
+}

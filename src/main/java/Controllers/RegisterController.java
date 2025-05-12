@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -46,15 +47,23 @@ public class RegisterController {
 
             // Créer l'utilisateur
             User user = new User(
-                nomField.getText(),
-                prenomField.getText(),
-                emailField.getText(),
-                telephoneField.getText()
+                    nomField.getText(),
+                    prenomField.getText(),
+                    emailField.getText(),
+                    telephoneField.getText()
             );
             user.setPassword(passwordField.getText());
 
             // Enregistrer l'utilisateur
             authService.register(user);
+
+            // Afficher un message de succès
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Inscription réussie");
+            alert.setHeaderText("Bienvenue sur GoVibe!");
+            alert.setContentText("Votre compte a été créé avec succès. Un email de bienvenue a été envoyé à " +
+                    user.getEmail() + ". Vous pouvez maintenant vous connecter.");
+            alert.showAndWait();
 
             // Rediriger vers la page de connexion
             redirectToLogin(event);

@@ -45,7 +45,7 @@ public class MyDb {
             + "quantite INT NOT NULL,"
             + "prix_total INT NOT NULL,"
             + "date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,"
-            + "statut VARCHAR(50) NOT NULL"
+            + "statut VARCHAR(50) NOT NULL DEFAULT 'ABONDONNE'"
             + ");";
 
         try (Statement stmt = conn.createStatement()) {

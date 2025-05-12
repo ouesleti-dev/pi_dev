@@ -187,12 +187,20 @@ public class PaiementEnLigneController implements Initializable {
 
                 // Convertir le montant en centimes pour Stripe (1€ = 100 centimes)
                 long amountInCents = (long) (montantTotalValue * 100);
+                if (amountInCents <= 0) {
+                    messageErreur.setText("Le montant doit être supérieur à zéro.");
+                    payerButton.setDisable(false);
+                    payerButton.setText("Payer");
+                    return;
+                }
 
                 // Créer une description pour le paiement
-                String description = "Paiement GoVibe - Panier #" + panierIdValue;
+                String description = "Paiement GoVibe";
 
+                // Mode test - simuler un paiement réussi sans appeler Stripe
+                boolean paymentSuccess = true;
                 // Traiter le paiement avec Stripe (utilise une carte de test)
-                boolean paymentSuccess = stripeService.processTestPayment(
+                paymentSuccess = stripeService.processTestPayment(
                         amountInCents,
                         "eur",
                         description
@@ -302,7 +310,6 @@ public class PaiementEnLigneController implements Initializable {
         alert.setHeaderText("Votre paiement a été traité avec succès");
         alert.setContentText(
                 "Récapitulatif de votre commande:\n\n" +
-                "Numéro de panier: " + panierIdValue + "\n" +
                 "Date de création: " + dateCreationValue + "\n" +
                 "Montant total payé: " + String.format("%.2f €", montantTotalValue) + "\n\n" +
                 "Un email de confirmation a été envoyé à " + emailField.getText() + "\n\n" +

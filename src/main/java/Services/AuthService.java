@@ -62,6 +62,15 @@ public class AuthService {
             ps.setBoolean(7, user.isVerified());
 
             ps.executeUpdate();
+
+            // Envoyer l'email de bienvenue
+            try {
+                EmailService emailService = new EmailService();
+                emailService.sendWelcomeEmail(user.getEmail(), user.getPrenom() + " " + user.getNom());
+            } catch (Exception e) {
+                System.err.println("Erreur lors de l'envoi de l'email de bienvenue: " + e.getMessage());
+                // Ne pas bloquer l'inscription si l'envoi d'email échoue
+            }
         }
     }
 
