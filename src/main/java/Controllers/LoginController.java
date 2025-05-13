@@ -123,13 +123,58 @@ public class LoginController {
     }
 
     private void redirectToAdminInterface(ActionEvent event) {
-        // Pour l'instant, rediriger vers l'interface client
-        redirectToClientInterface(event);
+        System.out.println("Début de la redirection vers l'interface admin");
+        try {
+            // Approche simplifiée pour la redirection
+            System.out.println("Chargement du fichier FXML: /Authentification/AdminDashboard.fxml");
+            URL fxmlUrl = getClass().getResource("/Authentification/AdminDashboard.fxml");
+            if (fxmlUrl == null) {
+                throw new IllegalStateException("Impossible de trouver le fichier FXML: /Authentification/AdminDashboard.fxml");
+            }
+            System.out.println("URL du fichier FXML: " + fxmlUrl);
+
+            FXMLLoader loader = new FXMLLoader(fxmlUrl);
+            System.out.println("Chargement du contenu FXML...");
+            Parent root = loader.load();
+            System.out.println("Contenu FXML chargé avec succès");
+
+            Scene scene = new Scene(root);
+
+            // Ajouter le CSS de base
+            System.out.println("Chargement du CSS: /styles/style.css");
+            URL cssUrl = getClass().getResource("/styles/style.css");
+            if (cssUrl != null) {
+                System.out.println("CSS trouvé: " + cssUrl);
+                scene.getStylesheets().add(cssUrl.toExternalForm());
+            } else {
+                System.out.println("ATTENTION: CSS de base non trouvé");
+            }
+
+            System.out.println("Configuration de la scène et affichage");
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setTitle("GoVibe - Tableau de bord administrateur");
+            stage.setScene(scene);
+            stage.show();
+            System.out.println("Redirection terminée avec succès");
+        } catch (IOException e) {
+            showError("Erreur lors du chargement du fichier FXML: " + e.getMessage());
+            System.err.println("Détails de l'erreur: " + e.getMessage());
+            e.printStackTrace();
+        } catch (IllegalStateException e) {
+            showError("Erreur d'état: " + e.getMessage());
+            System.err.println("Détails de l'erreur d'état: " + e.getMessage());
+            e.printStackTrace();
+        } catch (Exception e) {
+            showError("Erreur inattendue: " + e.getMessage());
+            System.err.println("Détails de l'erreur inattendue: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     private void redirectToSuperAdminInterface(ActionEvent event) {
-        // Pour l'instant, rediriger vers l'interface client
-        redirectToClientInterface(event);
+        // Pour l'instant, rediriger vers l'interface admin
+        redirectToAdminInterface(event);
     }
 
     // Méthode de redirection vers l'interface client (à implémenter plus tard)
