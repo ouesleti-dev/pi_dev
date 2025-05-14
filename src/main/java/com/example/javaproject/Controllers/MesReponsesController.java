@@ -195,7 +195,7 @@ public class MesReponsesController {
 
     public void loadReponses() {
         reponsesList.setItems(FXCollections.observableArrayList(
-                reponseService.getReponsesByUtilisateur(1) // Remplacez par l'ID de l'utilisateur connecté
+                reponseService.getReponsesByUtilisateur(2) // Remplacez par l'ID de l'utilisateur connecté
         ));
     }
 

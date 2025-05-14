@@ -247,7 +247,7 @@ public class ListeReclamationsBackofficeController {
             response.setIdReclamation(reclamation.getId());
             response.setContenu(responseContent);
             response.setDateReponse(LocalDateTime.now());
-            response.setIdUtilisateur(1); // ID admin
+            response.setIdUtilisateur(2); // ID admin
 
             new ReponseService().addEntity(response);
 
@@ -270,10 +270,10 @@ public class ListeReclamationsBackofficeController {
     }
 
     public void showAlert(Alert.AlertType type, String title, String message) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+         Alert alert = new Alert(type);
+         alert.setTitle(title);
+         alert.setHeaderText(null);
+         alert.setContentText(message);
+         alert.showAndWait();
     }
 }

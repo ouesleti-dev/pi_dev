@@ -39,7 +39,7 @@ public class ReponseService implements IService<Reponse> {
 
     @Override
     public void updateEntity(Reponse reponse) {
-        String query = "UPDATE reponse SET contenu = ?, datereponse = ? WHERE idreponse = ?";
+        String query = "UPDATE reponse SET contenu = ?, datereponse = ? WHERE id = ?";
         try (PreparedStatement pst = cnx.prepareStatement(query)) {
             pst.setString(1, reponse.getContenu());
             pst.setTimestamp(2, Timestamp.valueOf(reponse.getDateReponse()));
@@ -53,7 +53,7 @@ public class ReponseService implements IService<Reponse> {
 
     @Override
     public boolean deleteEntity(Reponse reponse) {
-        String query = "DELETE FROM reponse WHERE idreponse = ?";
+        String query = "DELETE FROM reponse WHERE id = ?";
         try (PreparedStatement pst = cnx.prepareStatement(query)) {
             pst.setInt(1, reponse.getId());
             int rowsAffected = pst.executeUpdate();
@@ -73,7 +73,7 @@ public class ReponseService implements IService<Reponse> {
 
             while (rs.next()) {
                 Reponse r = new Reponse();
-                r.setId(rs.getInt("idreponse"));
+                r.setId(rs.getInt("id"));
                 r.setIdReclamation(rs.getInt("idreclamation"));
                 r.setIdUtilisateur(rs.getInt("idutilisateur"));
                 r.setContenu(rs.getString("contenu"));
@@ -101,12 +101,12 @@ public class ReponseService implements IService<Reponse> {
             try (ResultSet rs = pst.executeQuery()) {
                 while (rs.next()) {
                     Reponse r = new Reponse();
-                    r.setId(rs.getInt("id_reponse"));
-                    r.setIdReclamation(rs.getInt("id_reclamation"));
-                    r.setIdUtilisateur(rs.getInt("id_utilisateur"));
+                    r.setId(rs.getInt("id"));
+                    r.setIdReclamation(rs.getInt("idreclamation"));
+                    r.setIdUtilisateur(rs.getInt("idutilisateur"));
                     r.setContenu(rs.getString("contenu"));
-                    r.setDateReponse(rs.getTimestamp("date_reponse").toLocalDateTime());
-                    r.setReclamationTitre(rs.getString("reclamation_titre"));
+                    r.setDateReponse(rs.getTimestamp("datereponse").toLocalDateTime());
+                    r.setReclamationTitre(rs.getString("reclamationtitre"));
 
                     list.add(r);
                 }
@@ -125,11 +125,11 @@ public class ReponseService implements IService<Reponse> {
             try (ResultSet rs = pst.executeQuery()) {
                 if (rs.next()) {
                     Reponse r = new Reponse();
-                    r.setId(rs.getInt("id_reponse"));
-                    r.setIdReclamation(rs.getInt("id_reclamation"));
-                    r.setIdUtilisateur(rs.getInt("id_utilisateur"));
+                    r.setId(rs.getInt("id"));
+                    r.setIdReclamation(rs.getInt("idreclamation"));
+                    r.setIdUtilisateur(rs.getInt("idutilisateur"));
                     r.setContenu(rs.getString("contenu"));
-                    r.setDateReponse(rs.getTimestamp("date_reponse").toLocalDateTime());
+                    r.setDateReponse(rs.getTimestamp("datereponse").toLocalDateTime());
                     return r;
                 }
             }

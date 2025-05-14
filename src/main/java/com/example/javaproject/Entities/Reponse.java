@@ -12,7 +12,7 @@ public class Reponse {
 
     public Reponse() {
         this.dateReponse = LocalDateTime.now();
-        this.idUtilisateur = 1; // Valeur statique par défaut
+        this.idUtilisateur = 2; // Valeur statique par défaut
     }
 
     public Reponse(int idReclamation, String contenu) {
