@@ -2,6 +2,7 @@ package Services;
 
 import Models.Personne;
 import Models.User;
+import Models.UserSession;
 import Utils.MyDb;
 
 import java.sql.Connection;
@@ -128,4 +129,6 @@ public class UserService implements  IService<User>{
             }
         }
     }
+
+
 }

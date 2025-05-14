@@ -1,6 +1,8 @@
 package Services;
 
 import Models.User;
+import Models.UserSession;
+import Services.RoleService;
 import Utils.MyDb;
 // import org.mindrot.jbcrypt.BCrypt; // Temporairement désactivé
 
@@ -8,13 +10,32 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class AuthService {
     private Connection conn;
 
     public AuthService() {
-        this.conn = MyDb.getInstance().getConn();
+        conn = MyDb.getInstance().getConn();
     }
+
+
+    /**
+     * Obtenir l'instance unique du service
+     * @return L'instance du service
+     */
+
+    private static AuthService instance;
+
+    public static AuthService getInstance() {
+        if (instance == null) {
+            instance = new AuthService();
+        }
+        return instance;
+    }
+
 
     public User login(String email, String password) throws Exception {
         String query = "SELECT * FROM user WHERE email = ?";
@@ -34,6 +55,11 @@ public class AuthService {
                         user.setPrenom(rs.getString("prenom"));
                         user.setRole(User.Role.valueOf(rs.getString("role")));
                         user.setVerified(rs.getBoolean("is_verified"));
+
+                        // Stocker l'utilisateur dans la session
+                        UserSession.getInstance().setCurrentUser(user);
+                        System.out.println("Utilisateur stocké dans la session: " + user.getEmail());
+
                         return user;
                     }
                 }
@@ -85,5 +111,17 @@ public class AuthService {
             }
         }
         return false;
+    }
+
+    public void logout() {
+        UserSession.getInstance().logout();
+    }
+
+    /**
+     * Obtenir l'utilisateur actuellement connecté
+     * @return L'utilisateur connecté ou null si aucun utilisateur n'est connecté
+     */
+    public User getCurrentUser() {
+        return UserSession.getInstance().getCurrentUser();
     }
 }

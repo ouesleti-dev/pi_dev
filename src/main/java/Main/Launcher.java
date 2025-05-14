@@ -16,6 +16,7 @@ public class Launcher {
             // Check if JavaFX modules are available
             Class.forName("javafx.application.Application");
             // If we get here, JavaFX is available, so launch the application
+            System.out.println("JavaFX modules found. Launching application...");
             Main.main(args);
         } catch (ClassNotFoundException e) {
             System.err.println("JavaFX runtime components are missing.");
@@ -24,6 +25,39 @@ public class Launcher {
             // Try to find JavaFX SDK in common locations
             String userHome = System.getProperty("user.home");
             String javafxVersion = "17.0.2";
+
+            // Check for specific paths from the error message
+            String[] specificPaths = {
+                "C:/Users/aymen.somai/.m2/repository/org/openjfx/javafx-controls/17.0.2",
+                "C:/Users/aymen.somai/.m2/repository/org/openjfx/javafx-fxml/17.0.2",
+                "C:/Users/aymen.somai/.m2/repository/org/openjfx/javafx-graphics/17.0.2",
+                "C:/Users/aymen.somai/.m2/repository/org/openjfx/javafx-base/17.0.2"
+            };
+
+            boolean specificPathsExist = true;
+            for (String path : specificPaths) {
+                if (!Files.exists(Paths.get(path))) {
+                    System.err.println("Path not found: " + path);
+                    specificPathsExist = false;
+                } else {
+                    System.err.println("Path found: " + path);
+                }
+            }
+
+            if (specificPathsExist) {
+                StringBuilder modulePath = new StringBuilder();
+                for (int i = 0; i < specificPaths.length; i++) {
+                    modulePath.append(specificPaths[i]);
+                    if (i < specificPaths.length - 1) {
+                        modulePath.append(";");
+                    }
+                }
+                System.err.println("Found JavaFX modules in specific paths");
+                System.err.println("Please run the application with the following command:");
+                System.err.println("java --module-path \"" + modulePath.toString() + "\" --add-modules=javafx.controls,javafx.fxml,javafx.graphics -cp target/classes Main.Main");
+                System.exit(1);
+                return;
+            }
 
             // Maven repository paths (most common for JavaFX)
             String mavenRepo = userHome + "/.m2/repository/org/openjfx";
@@ -38,8 +72,10 @@ public class Launcher {
             boolean mavenModulesExist = true;
             for (String module : mavenModules) {
                 if (!Files.exists(Paths.get(module))) {
+                    System.err.println("Maven module not found: " + module);
                     mavenModulesExist = false;
-                    break;
+                } else {
+                    System.err.println("Maven module found: " + module);
                 }
             }
 
@@ -92,6 +128,7 @@ public class Launcher {
                 System.err.println("Could not locate JavaFX SDK. Please download and install JavaFX SDK 17.0.2.");
                 System.err.println("Then run the application using the provided scripts or add the JavaFX modules to your module path.");
                 System.err.println("Example: java --module-path \"C:/path/to/javafx-sdk/lib\" --add-modules=javafx.controls,javafx.fxml,javafx.graphics -cp target/classes Main.Main");
+                System.err.println("\nAlternatively, run the fix-javafx-run.bat script that has been created in your project directory.");
             }
 
             System.exit(1);

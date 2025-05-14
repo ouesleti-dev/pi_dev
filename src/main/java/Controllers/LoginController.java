@@ -2,6 +2,7 @@ package Controllers;
 
 import Models.User;
 import Services.AuthService;
+import Services.RoleService;
 import Utils.NavigationUtil;
 import Utils.UserValidation;
 import javafx.fxml.FXML;
@@ -14,6 +15,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -23,9 +25,11 @@ public class LoginController {
     @FXML private PasswordField passwordField;
     @FXML private Label errorLabel;
     private AuthService authService;
+    private RoleService roleService;
 
     public LoginController() {
         authService = new AuthService();
+        roleService = RoleService.getInstance();
     }
 
     @FXML
@@ -48,20 +52,7 @@ public class LoginController {
 
             // Redirection selon le rôle de l'utilisateur
             System.out.println("Redirection selon le rôle: " + user.getRole());
-            switch (user.getRole()) {
-                case ROLE_ADMIN:
-                    System.out.println("Redirection vers l'interface admin");
-                    redirectToAdminInterface(event);
-                    break;
-                case ROLE_CLIENT:
-                    System.out.println("Redirection vers l'interface client");
-                    redirectToClientInterface(event);
-                    break;
-                case ROLE_SUPER_ADMIN:
-                    System.out.println("Redirection vers l'interface super admin");
-                    redirectToSuperAdminInterface(event);
-                    break;
-            }
+            navigateToDashboard(user, event);
 
         } catch (Exception e) {
             System.err.println("Erreur lors de la connexion: " + e.getMessage());
@@ -71,116 +62,97 @@ public class LoginController {
         System.out.println("Fin de la procédure de connexion");
     }
 
-    private void redirectToClientInterface(ActionEvent event) {
-        System.out.println("Début de la redirection vers l'interface client");
+    private void navigateToDashboard(User user, ActionEvent event) throws IOException {
         try {
-            // Approche simplifiée pour la redirection
-            System.out.println("Chargement du fichier FXML: /Authentification/Panier.fxml");
-            URL fxmlUrl = getClass().getResource("/Authentification/Panier.fxml");
-            if (fxmlUrl == null) {
-                throw new IllegalStateException("Impossible de trouver le fichier FXML: /Authentification/Panier.fxml");
-            }
-            System.out.println("URL du fichier FXML: " + fxmlUrl);
+            // Déterminer le type d'utilisateur
+            String userType = roleService.getUserType(user);
+            System.out.println("Type d'utilisateur détecté: " + userType);
+            System.out.println("Rôle de l'utilisateur: " + user.getRole());
+            System.out.println("Comparaison avec ROLE_ADMIN: " + RoleService.ROLE_ADMIN);
+            System.out.println("Comparaison avec ROLE_SUPER_ADMIN: " + RoleService.ROLE_SUPER_ADMIN);
+            System.out.println("Est-ce que userType == ROLE_ADMIN? " + (userType != null && userType.equals(RoleService.ROLE_ADMIN)));
+            System.out.println("Est-ce que userType == ROLE_SUPER_ADMIN? " + (userType != null && userType.equals(RoleService.ROLE_SUPER_ADMIN)));
 
-            FXMLLoader loader = new FXMLLoader(fxmlUrl);
-            System.out.println("Chargement du contenu FXML...");
+            String title;
+
+            // Choisir le tableau de bord approprié
+            String fxmlPath;
+
+            // Vérification directe du rôle de l'utilisateur
+            if (user.getRole() == User.Role.ROLE_ADMIN || user.getRole() == User.Role.ROLE_SUPER_ADMIN) {
+                fxmlPath = "/fxml/admin/AdminDashboard.fxml";
+                title = "Panneau d'administration";
+                System.out.println("Redirection vers l'interface admin (vérification directe): " + fxmlPath);
+            }
+            // Vérification via userType (méthode originale)
+            else if (userType != null && (userType.equals(RoleService.ROLE_ADMIN) || userType.equals(RoleService.ROLE_SUPER_ADMIN))) {
+                fxmlPath = "/fxml/admin/AdminDashboard.fxml";
+                title = "Panneau d'administration";
+                System.out.println("Redirection vers l'interface admin (via userType): " + fxmlPath);
+            } else {
+                fxmlPath = "/fxml/ClientDashboard.fxml";
+                title = "Tableau de bord client";
+                System.out.println("Redirection vers l'interface client: " + fxmlPath);
+            }
+
+            // Obtenir l'URL du fichier FXML
+            URL url = getClass().getResource(fxmlPath);
+            System.out.println("URL du fichier FXML: " + url);
+
+            if (url == null) {
+                System.err.println("Impossible de trouver le fichier FXML: " + fxmlPath);
+
+                // Essayer avec un chemin absolu
+                File file = new File("src/main/resources" + fxmlPath);
+                if (file.exists()) {
+                    url = file.toURI().toURL();
+                    System.out.println("URL créée à partir du fichier: " + url);
+                } else {
+                    System.err.println("Fichier FXML introuvable même avec chemin absolu: " + file.getAbsolutePath());
+
+                    // Solution de secours pour les administrateurs
+                    if (user.getRole() == User.Role.ROLE_ADMIN || user.getRole() == User.Role.ROLE_SUPER_ADMIN) {
+                        // Essayer avec un autre chemin pour l'admin
+                        String fallbackPath = "/Authentification/AdminDashboard.fxml";
+                        System.out.println("Tentative avec chemin de secours admin: " + fallbackPath);
+                        url = getClass().getResource(fallbackPath);
+
+                        if (url == null) {
+                            file = new File("src/main/resources" + fallbackPath);
+                            if (file.exists()) {
+                                url = file.toURI().toURL();
+                                System.out.println("URL créée à partir du fichier de secours: " + url);
+                            } else {
+                                throw new IOException("Tous les fichiers FXML admin introuvables");
+                            }
+                        }
+                    } else {
+                        throw new IOException("Fichier FXML introuvable: " + fxmlPath);
+                    }
+                }
+            }
+
+            FXMLLoader loader = new FXMLLoader(url);
             Parent root = loader.load();
-            System.out.println("Contenu FXML chargé avec succès");
 
             Scene scene = new Scene(root);
 
             // Ajouter le CSS de base
-            System.out.println("Chargement du CSS: /styles/style.css");
             URL cssUrl = getClass().getResource("/styles/style.css");
             if (cssUrl != null) {
-                System.out.println("CSS trouvé: " + cssUrl);
                 scene.getStylesheets().add(cssUrl.toExternalForm());
-            } else {
-                System.out.println("ATTENTION: CSS de base non trouvé");
             }
-
-            // Le CSS spécifique du panier est déjà inclus dans le fichier FXML
-            System.out.println("Configuration de la scène et affichage");
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setTitle("GoVibe - Panier");
+            stage.setTitle("GoVibe - " + title);
             stage.setScene(scene);
             stage.show();
-            System.out.println("Redirection terminée avec succès");
-        } catch (IOException e) {
-            showError("Erreur lors du chargement du fichier FXML: " + e.getMessage());
-            System.err.println("Détails de l'erreur: " + e.getMessage());
-            e.printStackTrace();
-        } catch (IllegalStateException e) {
-            showError("Erreur d'état: " + e.getMessage());
-            System.err.println("Détails de l'erreur d'état: " + e.getMessage());
-            e.printStackTrace();
         } catch (Exception e) {
-            showError("Erreur inattendue: " + e.getMessage());
-            System.err.println("Détails de l'erreur inattendue: " + e.getMessage());
+            System.err.println("Erreur lors de la redirection: " + e.getMessage());
             e.printStackTrace();
+            throw new IOException("Erreur lors de la redirection: " + e.getMessage(), e);
         }
     }
-
-    private void redirectToAdminInterface(ActionEvent event) {
-        System.out.println("Début de la redirection vers l'interface admin");
-        try {
-            // Approche simplifiée pour la redirection
-            System.out.println("Chargement du fichier FXML: /Authentification/AdminDashboard.fxml");
-            URL fxmlUrl = getClass().getResource("/Authentification/AdminDashboard.fxml");
-            if (fxmlUrl == null) {
-                throw new IllegalStateException("Impossible de trouver le fichier FXML: /Authentification/AdminDashboard.fxml");
-            }
-            System.out.println("URL du fichier FXML: " + fxmlUrl);
-
-            FXMLLoader loader = new FXMLLoader(fxmlUrl);
-            System.out.println("Chargement du contenu FXML...");
-            Parent root = loader.load();
-            System.out.println("Contenu FXML chargé avec succès");
-
-            Scene scene = new Scene(root);
-
-            // Ajouter le CSS de base
-            System.out.println("Chargement du CSS: /styles/style.css");
-            URL cssUrl = getClass().getResource("/styles/style.css");
-            if (cssUrl != null) {
-                System.out.println("CSS trouvé: " + cssUrl);
-                scene.getStylesheets().add(cssUrl.toExternalForm());
-            } else {
-                System.out.println("ATTENTION: CSS de base non trouvé");
-            }
-
-            System.out.println("Configuration de la scène et affichage");
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setTitle("GoVibe - Tableau de bord administrateur");
-            stage.setScene(scene);
-            stage.show();
-            System.out.println("Redirection terminée avec succès");
-        } catch (IOException e) {
-            showError("Erreur lors du chargement du fichier FXML: " + e.getMessage());
-            System.err.println("Détails de l'erreur: " + e.getMessage());
-            e.printStackTrace();
-        } catch (IllegalStateException e) {
-            showError("Erreur d'état: " + e.getMessage());
-            System.err.println("Détails de l'erreur d'état: " + e.getMessage());
-            e.printStackTrace();
-        } catch (Exception e) {
-            showError("Erreur inattendue: " + e.getMessage());
-            System.err.println("Détails de l'erreur inattendue: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    private void redirectToSuperAdminInterface(ActionEvent event) {
-        // Pour l'instant, rediriger vers l'interface admin
-        redirectToAdminInterface(event);
-    }
-
-    // Méthode de redirection vers l'interface client (à implémenter plus tard)
-    // private void redirectToClientInterface(ActionEvent event) {
-    //     // Code de redirection à implémenter
-    // }
 
     private boolean validateInputs(String email, String password) {
         try {
