@@ -11,8 +11,29 @@ public class Panier {
     private Timestamp date_creation;
     private Statut statut;
     public enum Statut {
-        ABONDONNE,
-        VALIDE
+        ABONDONNE("A"),
+        VALIDE("V");
+
+        private final String code;
+
+        Statut(String code) {
+            this.code = code;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public static Statut fromCode(String code) {
+            if (code == null) return ABONDONNE;
+
+            for (Statut s : values()) {
+                if (s.code.equals(code)) {
+                    return s;
+                }
+            }
+            return ABONDONNE;
+        }
     }
 
     // Constructeur par défaut

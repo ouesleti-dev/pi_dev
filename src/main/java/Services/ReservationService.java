@@ -125,7 +125,7 @@ public class ReservationService {
     public ReserverEvent getReservationById(int reservationId) throws SQLException {
         String query = "SELECT r.*, " +
                 "u.id as user_id, u.nom as user_nom, u.prenom as user_prenom, u.email as user_email, " +
-                "e.id as event_id, e.title, e.description, e.date_debut, e.date_fin, e.status, e.image " +
+                "e.id as event_id, e.title, e.description, e.date_debut, e.date_fin, e.status, e.image, e.prix " +
                 "FROM reserver_event r " +
                 "JOIN user u ON r.user_id = u.id " +
                 "JOIN event e ON r.event_id = e.id " +
@@ -154,7 +154,7 @@ public class ReservationService {
         List<ReserverEvent> reservations = new ArrayList<>();
         String query = "SELECT r.*, " +
                 "u.id as user_id, u.nom as user_nom, u.prenom as user_prenom, u.email as user_email, " +
-                "e.id as event_id, e.title, e.description, e.date_debut, e.date_fin, e.status, e.image " +
+                "e.id as event_id, e.title, e.description, e.date_debut, e.date_fin, e.status, e.image, e.prix " +
                 "FROM reserver_event r " +
                 "JOIN user u ON r.user_id = u.id " +
                 "JOIN event e ON r.event_id = e.id " +
@@ -183,7 +183,7 @@ public class ReservationService {
         List<ReserverEvent> reservations = new ArrayList<>();
         String query = "SELECT r.*, " +
                 "u.id as user_id, u.nom as user_nom, u.prenom as user_prenom, u.email as user_email, " +
-                "e.id as event_id, e.title, e.description, e.date_debut, e.date_fin, e.status, e.image " +
+                "e.id as event_id, e.title, e.description, e.date_debut, e.date_fin, e.status, e.image, e.prix " +
                 "FROM reserver_event r " +
                 "JOIN user u ON r.user_id = u.id " +
                 "JOIN event e ON r.event_id = e.id " +
@@ -211,7 +211,7 @@ public class ReservationService {
         List<ReserverEvent> reservations = new ArrayList<>();
         String query = "SELECT r.*, " +
                 "u.id as user_id, u.nom as user_nom, u.prenom as user_prenom, u.email as user_email, " +
-                "e.id as event_id, e.title, e.description, e.date_debut, e.date_fin, e.status, e.image " +
+                "e.id as event_id, e.title, e.description, e.date_debut, e.date_fin, e.status, e.image, e.prix " +
                 "FROM reserver_event r " +
                 "JOIN user u ON r.user_id = u.id " +
                 "JOIN event e ON r.event_id = e.id";
@@ -281,6 +281,17 @@ public class ReservationService {
         // La ligne pour définir max_participants a été supprimée
         event.setStatus(resultSet.getString("status"));
         event.setImage(resultSet.getString("image"));
+
+        // Récupérer le prix de l'événement avec gestion des erreurs
+        try {
+            double prix = resultSet.getDouble("prix");
+            System.out.println("Prix récupéré de l'événement " + event.getTitle() + ": " + prix);
+            event.setPrix(prix);
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la récupération du prix pour l'événement " + event.getTitle() + ": " + e.getMessage());
+            // Si le champ prix n'existe pas ou est null, on met 0.0 par défaut
+            event.setPrix(0.0);
+        }
 
         reservation.setEvent(event);
 

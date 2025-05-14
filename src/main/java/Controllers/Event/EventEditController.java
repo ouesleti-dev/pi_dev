@@ -64,6 +64,9 @@ public class EventEditController implements Initializable {
     // Le champ maxParticipantsSpinner a été supprimé
 
     @FXML
+    private TextField prixField;
+
+    @FXML
     private ComboBox<String> statusComboBox;
 
     @FXML
@@ -119,6 +122,13 @@ public class EventEditController implements Initializable {
         // Désactiver le champ de texte pour l'image (lecture seule)
         imageField.setEditable(false);
 
+        // Ajouter un validateur pour le champ de prix (accepter uniquement les nombres)
+        prixField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*(\\.\\d*)?")){  // Accepte uniquement les chiffres et un point décimal
+                prixField.setText(oldValue);
+            }
+        });
+
         // Vérifier si l'utilisateur est admin pour activer/désactiver le combobox de statut
         try {
             User currentUser = authService.getCurrentUser();
@@ -156,6 +166,10 @@ public class EventEditController implements Initializable {
 
         // La ligne pour définir la valeur du spinner max_participants a été supprimée
         statusComboBox.setValue(event.getStatus());
+
+        // Définir le prix
+        prixField.setText(String.valueOf(event.getPrix()));
+
         // Enregistrer le chemin de l'image actuelle
         currentImagePath = event.getImage();
         imageField.setText("Image actuelle");
@@ -192,6 +206,7 @@ public class EventEditController implements Initializable {
                 heureFinSpinner.setDisable(true);
                 minuteFinSpinner.setDisable(true);
                 // La ligne pour désactiver le spinner max_participants a été supprimée
+                prixField.setDisable(true);
                 statusComboBox.setDisable(true);
                 browseButton.setDisable(true);
                 saveButton.setDisable(true);
@@ -286,12 +301,26 @@ public class EventEditController implements Initializable {
         }
 
         try {
+            // Valider le prix
+            double prix = 0.0;
+            try {
+                prix = Double.parseDouble(prixField.getText());
+                if (prix < 0) {
+                    showAlert(Alert.AlertType.ERROR, "Erreur de validation", "- Le prix ne peut pas être négatif");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                showAlert(Alert.AlertType.ERROR, "Erreur de validation", "- Le prix doit être un nombre valide");
+                return;
+            }
+
             // Mettre à jour l'événement
             event.setTitle(title);
             event.setDescription(description);
             event.setDate_debut(dateDebutJava);
             event.setDate_fin(dateFinJava);
             event.setStatus(status);
+            event.setPrix(prix);
             // L'image sera mise à jour plus tard
 
             // L'événement a déjà été validé par les méthodes individuelles

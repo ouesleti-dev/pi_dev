@@ -62,28 +62,59 @@ public class EventService {
             event.setStatus(STATUS_PENDING);
         }
 
-        String query = "INSERT INTO event (user_id, title, description, date_debut, date_fin, status, image) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setInt(1, event.getUser().getId());
-            statement.setString(2, event.getTitle());
-            statement.setString(3, event.getDescription());
-            statement.setTimestamp(4, new Timestamp(event.getDate_debut().getTime()));
-            statement.setTimestamp(5, new Timestamp(event.getDate_fin().getTime()));
-            statement.setString(6, event.getStatus());
-            statement.setString(7, event.getImage());
+        try {
+            // Essayer d'abord avec la colonne prix
+            String query = "INSERT INTO event (user_id, title, description, date_debut, date_fin, status, image, prix) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+                statement.setInt(1, event.getUser().getId());
+                statement.setString(2, event.getTitle());
+                statement.setString(3, event.getDescription());
+                statement.setTimestamp(4, new Timestamp(event.getDate_debut().getTime()));
+                statement.setTimestamp(5, new Timestamp(event.getDate_fin().getTime()));
+                statement.setString(6, event.getStatus());
+                statement.setString(7, event.getImage());
+                statement.setDouble(8, event.getPrix());
 
-            statement.executeUpdate();
+                statement.executeUpdate();
 
-            // Récupérer l'ID généré
-            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    event.setId(generatedKeys.getInt(1));
+                // Récupérer l'ID généré
+                try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        event.setId(generatedKeys.getInt(1));
+                    }
                 }
             }
+        } catch (SQLException e) {
+            // Si la colonne prix n'existe pas, essayer sans cette colonne
+            if (e.getMessage().contains("Unknown column 'prix'")) {
+                System.out.println("La colonne 'prix' n'existe pas, tentative d'insertion sans cette colonne");
+                String query = "INSERT INTO event (user_id, title, description, date_debut, date_fin, status, image) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+                    statement.setInt(1, event.getUser().getId());
+                    statement.setString(2, event.getTitle());
+                    statement.setString(3, event.getDescription());
+                    statement.setTimestamp(4, new Timestamp(event.getDate_debut().getTime()));
+                    statement.setTimestamp(5, new Timestamp(event.getDate_fin().getTime()));
+                    statement.setString(6, event.getStatus());
+                    statement.setString(7, event.getImage());
 
-            // Envoyer un SMS à l'administrateur pour l'informer du nouvel événement
-            sendNewEventSMS(event);
+                    statement.executeUpdate();
+
+                    // Récupérer l'ID généré
+                    try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                        if (generatedKeys.next()) {
+                            event.setId(generatedKeys.getInt(1));
+                        }
+                    }
+                }
+            } else {
+                // Autre erreur SQL, la propager
+                throw e;
+            }
         }
+
+        // Envoyer un SMS à l'administrateur pour l'informer du nouvel événement
+        sendNewEventSMS(event);
     }
 
     /**
@@ -104,17 +135,41 @@ public class EventService {
             throw new IllegalArgumentException("L'événement n'existe pas");
         }
 
-        String query = "UPDATE event SET title = ?, description = ?, date_debut = ?, date_fin = ?, status = ?, image = ? WHERE id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, event.getTitle());
-            statement.setString(2, event.getDescription());
-            statement.setTimestamp(3, new Timestamp(event.getDate_debut().getTime()));
-            statement.setTimestamp(4, new Timestamp(event.getDate_fin().getTime()));
-            statement.setString(5, event.getStatus());
-            statement.setString(6, event.getImage());
-            statement.setInt(7, event.getId());
+        try {
+            // Essayer d'abord avec la colonne prix
+            String query = "UPDATE event SET title = ?, description = ?, date_debut = ?, date_fin = ?, status = ?, image = ?, prix = ? WHERE id = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, event.getTitle());
+                statement.setString(2, event.getDescription());
+                statement.setTimestamp(3, new Timestamp(event.getDate_debut().getTime()));
+                statement.setTimestamp(4, new Timestamp(event.getDate_fin().getTime()));
+                statement.setString(5, event.getStatus());
+                statement.setString(6, event.getImage());
+                statement.setDouble(7, event.getPrix());
+                statement.setInt(8, event.getId());
 
-            statement.executeUpdate();
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            // Si la colonne prix n'existe pas, essayer sans cette colonne
+            if (e.getMessage().contains("Unknown column 'prix'")) {
+                System.out.println("La colonne 'prix' n'existe pas, tentative de mise à jour sans cette colonne");
+                String query = "UPDATE event SET title = ?, description = ?, date_debut = ?, date_fin = ?, status = ?, image = ? WHERE id = ?";
+                try (PreparedStatement statement = connection.prepareStatement(query)) {
+                    statement.setString(1, event.getTitle());
+                    statement.setString(2, event.getDescription());
+                    statement.setTimestamp(3, new Timestamp(event.getDate_debut().getTime()));
+                    statement.setTimestamp(4, new Timestamp(event.getDate_fin().getTime()));
+                    statement.setString(5, event.getStatus());
+                    statement.setString(6, event.getImage());
+                    statement.setInt(7, event.getId());
+
+                    statement.executeUpdate();
+                }
+            } else {
+                // Autre erreur SQL, la propager
+                throw e;
+            }
         }
     }
 
@@ -177,7 +232,7 @@ public class EventService {
     private void sendEventApprovalSMS(String eventTitle, String userName) {
         try {
             // Numéro de téléphone de l'administrateur
-            String adminPhoneNumber = "+21621838849";
+            String adminPhoneNumber = "+21658876140";
 
             // Message à envoyer
             String message = "Un nouvel événement a été approuvé: '" + eventTitle + "' créé par " + userName;
@@ -205,7 +260,7 @@ public class EventService {
             }
 
             // Numéro de téléphone de l'administrateur
-            String adminPhoneNumber = "+21621838849";
+            String adminPhoneNumber = "+21658876140";
 
             // Récupérer les informations de l'événement pour le SMS
             String eventTitle = event.getTitle();
@@ -317,6 +372,14 @@ public class EventService {
         // Le champ max_participants a été supprimé
         event.setStatus(resultSet.getString("status"));
         event.setImage(resultSet.getString("image"));
+
+        // Récupérer le prix (avec gestion des valeurs nulles)
+        try {
+            event.setPrix(resultSet.getDouble("prix"));
+        } catch (SQLException e) {
+            // Si le champ prix n'existe pas ou est null, on met 0.0 par défaut
+            event.setPrix(0.0);
+        }
 
         // Créer l'organisateur
         User user = new User();

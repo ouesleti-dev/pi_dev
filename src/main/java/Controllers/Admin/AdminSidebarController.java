@@ -33,10 +33,10 @@ public class AdminSidebarController implements Initializable {
     private Button userButton;
 
     @FXML
-    private HBox evenementHBox;
+    private HBox eventHBox;
 
     @FXML
-    private Button evenementButton;
+    private Button eventButton;
 
     @FXML
     private HBox reservationHBox;
@@ -75,7 +75,7 @@ public class AdminSidebarController implements Initializable {
     @FXML
     private void handleEventListClick(ActionEvent event) {
         loadPage("EventList.fxml");
-        setActiveButton(evenementButton);
+        setActiveButton(eventButton);
     }
 
     @FXML
@@ -179,7 +179,7 @@ public class AdminSidebarController implements Initializable {
         // Réinitialiser tous les boutons
         dashboardButton.getStyleClass().remove("active");
         userButton.getStyleClass().remove("active");
-        evenementButton.getStyleClass().remove("active");
+        eventButton.getStyleClass().remove("active");
         reservationButton.getStyleClass().remove("active");
 
         // Définir le bouton actif

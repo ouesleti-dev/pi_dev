@@ -14,6 +14,7 @@ public class Event {
     private Date date_fin;
     private String status;
     private String image;
+    private double prix; // Nouveau champ pour le prix de l'événement
 
     /**
      * Constructeur par défaut
@@ -30,8 +31,9 @@ public class Event {
      * @param date_fin Date de fin de l'événement
      * @param status Statut de l'événement
      * @param image Image de l'événement
+     * @param prix Prix de l'événement
      */
-    public Event(int id, User user, String title, String description, Date date_debut, Date date_fin, String status, String image) {
+    public Event(int id, User user, String title, String description, Date date_debut, Date date_fin, String status, String image, double prix) {
         this.id = id;
         this.user = user;
         this.title = title;
@@ -41,6 +43,7 @@ public class Event {
         // Le champ max_participants a été supprimé
         this.status = status;
         this.image = image;
+        this.prix = prix;
     }
 
     /**
@@ -51,8 +54,9 @@ public class Event {
      * @param date_fin Date de fin de l'événement
      * @param status Statut de l'événement
      * @param image Image de l'événement
+     * @param prix Prix de l'événement
      */
-    public Event(User user, String title, String description, Date date_debut, Date date_fin, String status, String image) {
+    public Event(User user, String title, String description, Date date_debut, Date date_fin, String status, String image, double prix) {
         this.user = user;
         this.title = title;
         this.description = description;
@@ -61,6 +65,14 @@ public class Event {
         // Le champ max_participants a été supprimé
         this.status = status;
         this.image = image;
+        this.prix = prix;
+    }
+
+    /**
+     * Constructeur sans id et sans prix (pour compatibilité avec le code existant)
+     */
+    public Event(User user, String title, String description, Date date_debut, Date date_fin, String status, String image) {
+        this(user, title, description, date_debut, date_fin, status, image, 0.0);
     }
 
     // Getters et Setters
@@ -130,6 +142,14 @@ public class Event {
         this.image = image;
     }
 
+    public double getPrix() {
+        return prix;
+    }
+
+    public void setPrix(double prix) {
+        this.prix = prix;
+    }
+
     @Override
     public String toString() {
         return "Event{" +
@@ -142,6 +162,7 @@ public class Event {
                 // Le champ max_participants a été supprimé +
                 ", status='" + status + '\'' +
                 ", image='" + image + '\'' +
+                ", prix=" + prix +
                 '}';
     }
 }

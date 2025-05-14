@@ -1,6 +1,7 @@
 package Controllers.Event;
 
 import Models.Event;
+import Models.Panier;
 import Models.ReserverEvent;
 import Models.User;
 import javafx.event.ActionEvent;
@@ -19,6 +20,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import Services.AuthService;
+import Services.PanierService;
 import Services.ReservationService;
 import Services.RoleService;
 import Controllers.ClientDashboardController;
@@ -79,11 +81,13 @@ public class EventViewController implements Initializable {
     private AuthService authService;
     private RoleService roleService;
     private ReservationService reservationService;
+    private PanierService panierService;
 
     public EventViewController() {
         authService = AuthService.getInstance();
         roleService = RoleService.getInstance();
         reservationService = ReservationService.getInstance();
+        panierService = new PanierService();
     }
 
     @Override
@@ -183,7 +187,7 @@ public class EventViewController implements Initializable {
                 return;
             }
 
-            // Enregistrer la réservation
+            // 1. Enregistrer la réservation
             boolean success = reservationService.addReservation(currentUser.getId(), this.event.getId());
 
             if (!success) {
@@ -191,19 +195,58 @@ public class EventViewController implements Initializable {
                 return;
             }
 
+            // 2. Ajouter directement au panier
+            // Récupérer le prix de l'événement
+            double prix = this.event.getPrix();
+            System.out.println("Prix de l'événement " + this.event.getTitle() + " avant conversion: " + prix);
+
+            // Quantité par défaut fixée à 1
+            int quantite = 1;
+
+            // S'assurer que le prix est positif
+            if (prix <= 0) {
+                System.out.println("Prix nul ou négatif détecté, utilisation d'un prix par défaut de 100");
+                prix = 100; // Prix par défaut si le prix est nul ou négatif
+            }
+
+            // Créer un nouvel objet Panier
+            int prixInt = (int)prix;
+            System.out.println("Prix après conversion en int: " + prixInt);
+            Panier panier = new Panier(this.event.getId(), prixInt, quantite);
+
+            // Ajouter au panier
+            panierService.Create(panier);
+
             // Rafraîchir les statistiques du tableau de bord
             ClientDashboardController.refreshDashboardStatistics();
 
-            showAlert(Alert.AlertType.INFORMATION, "Succès", "Votre réservation a été enregistrée avec succès");
+            // 3. Rediriger vers la page panier.fxml
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Authentification/panier.fxml"));
+                Parent root = loader.load();
 
-            // Désactiver le bouton de réservation
-            reserveButton.setDisable(true);
-            reserveButton.setText("Déjà réservé");
+                // Récupérer la scène actuelle
+                Scene currentScene = reserveButton.getScene();
+                Stage stage = (Stage) currentScene.getWindow();
+
+                // Remplacer la scène actuelle par la page panier
+                stage.setScene(new Scene(root));
+                stage.setTitle("Panier");
+
+            } catch (IOException e) {
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur de navigation",
+                        "Impossible d'ouvrir la page panier: " + e.getMessage());
+                e.printStackTrace();
+            }
+
         } catch (SQLException e) {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de la réservation: " + e.getMessage());
             e.printStackTrace();
         } catch (IllegalArgumentException e) {
             showAlert(Alert.AlertType.ERROR, "Erreur de validation", e.getMessage());
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de l'ajout au panier: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -246,9 +289,13 @@ public class EventViewController implements Initializable {
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String content) {
+        showAlert(alertType, title, null, content);
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String header, String content) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
-        alert.setHeaderText(null);
+        alert.setHeaderText(header);
         alert.setContentText(content);
         alert.showAndWait();
     }

@@ -1,6 +1,7 @@
 package Controllers.Event;
 
 import Models.Event;
+import Models.Panier;
 import Models.ReserverEvent;
 import Models.User;
 import javafx.collections.FXCollections;
@@ -17,6 +18,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import Services.AuthService;
+import Services.PanierService;
 import Services.ReservationService;
 import Services.RoleService;
 import Controllers.ClientDashboardController;
@@ -49,12 +51,14 @@ public class ReservationListController implements Initializable {
     private ReservationService reservationService;
     private AuthService authService;
     private RoleService roleService;
+    private PanierService panierService;
     private ObservableList<ReserverEvent> reservationList;
 
     public ReservationListController() {
         reservationService = ReservationService.getInstance();
         authService = AuthService.getInstance();
         roleService = RoleService.getInstance();
+        panierService = new PanierService();
         reservationList = FXCollections.observableArrayList();
     }
 
@@ -141,7 +145,13 @@ public class ReservationListController implements Initializable {
                         actionBox.getChildren().add(confirmBtn);
                     }
 
-
+                    // Ajouter le bouton "Ajouter au panier" pour les utilisateurs normaux
+                    if (isOwner) {
+                        Button addToCartBtn = new Button("Ajouter au panier");
+                        addToCartBtn.setStyle("-fx-background-color: #2ecc71; -fx-text-fill: white;");
+                        addToCartBtn.setOnAction(e -> addReservationToCart(reservation));
+                        actionBox.getChildren().add(addToCartBtn);
+                    }
 
                     vbox.getChildren().add(actionBox);
                 } catch (SQLException e) {
@@ -359,5 +369,65 @@ public class ReservationListController implements Initializable {
         alert.setHeaderText(header);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    /**
+     * Ajoute une réservation d'événement au panier et redirige vers la page panier
+     * @param reservation La réservation à ajouter au panier
+     */
+    private void addReservationToCart(ReserverEvent reservation) {
+        try {
+            // Vérifier que la réservation et l'événement ne sont pas null
+            if (reservation == null || reservation.getEvent() == null) {
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur d'ajout au panier", "Impossible d'ajouter cette réservation au panier.");
+                return;
+            }
+
+            Event event = reservation.getEvent();
+
+            // Utiliser directement le prix de l'événement
+            double prix = event.getPrix();
+            System.out.println("Prix de l'événement " + event.getTitle() + " avant conversion: " + prix);
+
+            // Quantité par défaut fixée à 1
+            int quantite = 1;
+
+            // S'assurer que le prix est positif
+            if (prix <= 0) {
+                System.out.println("Prix nul ou négatif détecté, utilisation d'un prix par défaut de 100");
+                prix = 100; // Prix par défaut si le prix est nul ou négatif
+            }
+
+            // Créer un nouvel objet Panier
+            int prixInt = (int)prix;
+            System.out.println("Prix après conversion en int: " + prixInt);
+            Panier panier = new Panier(event.getId(), prixInt, quantite);
+
+            // Ajouter au panier
+            panierService.Create(panier);
+
+            // Rediriger vers la page panier.fxml
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Authentification/panier.fxml"));
+                Parent root = loader.load();
+
+                // Récupérer la scène actuelle
+                Scene currentScene = ((Button)reservationListView.getScene().getFocusOwner()).getScene();
+                Stage stage = (Stage) currentScene.getWindow();
+
+                // Remplacer la scène actuelle par la page panier
+                stage.setScene(new Scene(root));
+                stage.setTitle("Panier");
+
+            } catch (IOException e) {
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur de navigation",
+                        "Impossible d'ouvrir la page panier: " + e.getMessage());
+                e.printStackTrace();
+            }
+
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur d'ajout au panier", "Une erreur est survenue lors de l'ajout au panier: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

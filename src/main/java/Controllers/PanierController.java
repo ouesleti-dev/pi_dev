@@ -16,6 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.ButtonBar;
+import java.io.File;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -240,6 +241,36 @@ public class PanierController implements Initializable {
         }
     }
 
+    /**
+     * Gère le clic sur le bouton de retour pour revenir à la liste des réservations
+     * @param event L'événement de clic
+     */
+    @FXML
+    void handleBackButton(ActionEvent event) {
+        try {
+            // Charger la page de liste des réservations
+            File file = new File("src/main/resources/fxml/event/ReservationList.fxml");
+            if (file.exists()) {
+                URL url = file.toURI().toURL();
+                FXMLLoader loader = new FXMLLoader(url);
+                Parent root = loader.load();
+
+                // Récupérer la scène actuelle
+                Scene currentScene = panierListView.getScene();
+                Stage stage = (Stage) currentScene.getWindow();
+
+                // Remplacer la scène actuelle par la page de liste des réservations
+                stage.setScene(new Scene(root));
+                stage.setTitle("Liste des réservations");
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Fichier FXML non trouvé", file.getAbsolutePath());
+            }
+        } catch (IOException e) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors du chargement de la page", e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     @FXML
     void Payer(ActionEvent event) {
         if (panierList == null || panierList.isEmpty()) {
@@ -441,6 +472,10 @@ public class PanierController implements Initializable {
         alert.setHeaderText(header);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String content) {
+        showAlert(alertType, title, null, content);
     }
 
     private String showInputDialog(String title, String content) {

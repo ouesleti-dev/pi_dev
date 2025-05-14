@@ -20,13 +20,13 @@ public class PanierService implements IService<Panier> {
     @Override
     public void Create(Panier panier) throws Exception {
         // Utiliser une requête qui laisse la base de données gérer l'auto-incrémentation et le timestamp
-        String req = "INSERT INTO panier (id_events, prix, quantite, prix_total, statut) VALUES (?, ?, ?, ?, ?)";
+        // Omettre le statut pour éviter les problèmes de troncature
+        String req = "INSERT INTO panier (id_events, prix, quantite, prix_total) VALUES (?, ?, ?, ?)";
         try (PreparedStatement ps = conn.prepareStatement(req, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, panier.getId_events());
             ps.setInt(2, panier.getPrix());
             ps.setInt(3, panier.getQuantite());
             ps.setInt(4, panier.getPrix_total());
-            ps.setString(5, panier.getStatut().toString());
 
             ps.executeUpdate();
 
@@ -56,14 +56,14 @@ public class PanierService implements IService<Panier> {
 
     @Override
     public void Update(Panier panier) throws Exception {
-        String req = "UPDATE panier SET id_events=?, prix=?, quantite=?, prix_total=?, statut=? WHERE id_panier=?";
+        // Omettre le statut pour éviter les problèmes de troncature
+        String req = "UPDATE panier SET id_events=?, prix=?, quantite=?, prix_total=? WHERE id_panier=?";
         try (PreparedStatement ps = conn.prepareStatement(req)) {
             ps.setInt(1, panier.getId_events());
             ps.setInt(2, panier.getPrix());
             ps.setInt(3, panier.getQuantite());
             ps.setInt(4, panier.getPrix_total());
-            ps.setString(5, panier.getStatut().toString());
-            ps.setInt(6, panier.getId_panier());
+            ps.setInt(5, panier.getId_panier());
 
             ps.executeUpdate();
         }
@@ -89,12 +89,8 @@ public class PanierService implements IService<Panier> {
                     // Gérer le cas où le statut est null ou invalide
                     String statutStr = rs.getString("statut");
                     if (statutStr != null && !statutStr.isEmpty()) {
-                        try {
-                            panier.setStatut(Panier.Statut.valueOf(statutStr));
-                        } catch (IllegalArgumentException e) {
-                            System.err.println("Statut invalide dans la base de données: " + statutStr);
-                            panier.setStatut(Panier.Statut.ABONDONNE); // Valeur par défaut
-                        }
+                        // Utiliser la méthode fromCode pour convertir le code en énumération
+                        panier.setStatut(Panier.Statut.fromCode(statutStr));
                     } else {
                         panier.setStatut(Panier.Statut.ABONDONNE); // Valeur par défaut
                     }

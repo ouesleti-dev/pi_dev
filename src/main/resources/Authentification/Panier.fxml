@@ -23,7 +23,7 @@
                         <Font name="System Bold" size="24.0" />
                      </font>
                   </Label>
-                  
+
                   <!-- Barre de recherche moderne -->
                   <HBox styleClass="search-container" alignment="CENTER_LEFT">
                      <children>
@@ -37,7 +37,7 @@
                </padding>
             </VBox>
          </top>
-         
+
          <center>
             <HBox spacing="20.0" BorderPane.alignment="CENTER">
                <children>
@@ -51,10 +51,17 @@
                               <TextField fx:id="txtdc" />
                            </children>
                         </HBox>
-                        
+
+                        <!-- Bouton de retour -->
+                        <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBackButton" style="-fx-background-color: #e74c3c;" text="Retour aux réservations" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Button>
+
                         <!-- Liste des articles -->
                         <ListView fx:id="panierListView" VBox.vgrow="ALWAYS" />
-                        
+
                         <!-- Code de réduction -->
                         <HBox spacing="10.0" alignment="CENTER_LEFT">
                            <children>
@@ -62,7 +69,7 @@
                               <Button mnemonicParsing="false" onAction="#Valider" style="-fx-background-color: #e74c3c;" text="Appliquer" textFill="WHITE" />
                            </children>
                         </HBox>
-                        
+
                         <!-- Boutons d'action -->
                         <HBox styleClass="action-buttons">
                            <children>
@@ -76,7 +83,7 @@
                         <Insets bottom="20.0" left="0.0" right="0.0" top="0.0" />
                      </padding>
                   </VBox>
-                  
+
                   <!-- Colonne droite: Résumé et paiement -->
                   <VBox prefWidth="300.0" spacing="15.0">
                      <children>
@@ -85,7 +92,7 @@
                            <children>
                               <Label styleClass="summary-title" text="Résumé de la commande" />
                               <Separator />
-                              
+
                               <!-- Sous-total -->
                               <HBox styleClass="summary-row" alignment="CENTER">
                                  <children>
@@ -93,7 +100,7 @@
                                     <Label fx:id="subtotalLabel" styleClass="summary-value" text="0.00 €" />
                                  </children>
                               </HBox>
-                              
+
                               <!-- Livraison -->
                               <HBox styleClass="summary-row" alignment="CENTER">
                                  <children>
@@ -101,7 +108,7 @@
                                     <Label styleClass="summary-value" text="Gratuite" />
                                  </children>
                               </HBox>
-                              
+
                               <!-- TVA -->
                               <HBox styleClass="summary-row" alignment="CENTER">
                                  <children>
@@ -109,9 +116,9 @@
                                     <Label fx:id="vatLabel" styleClass="summary-value" text="0.00 €" />
                                  </children>
                               </HBox>
-                              
+
                               <Separator />
-                              
+
                               <!-- Total -->
                               <HBox styleClass="total-row" alignment="CENTER">
                                  <children>
@@ -119,10 +126,10 @@
                                     <Label fx:id="totalLabel" styleClass="total-value" text="0.00 €" />
                                  </children>
                               </HBox>
-                              
+
                               <!-- Champ total (caché visuellement mais utilisé par le contrôleur) -->
                               <TextField fx:id="txttc" visible="false" />
-                              
+
                               <!-- Bouton de paiement -->
                               <Button mnemonicParsing="false" onAction="#Payer" styleClass="pay-button" text="Procéder au paiement">
                                  <VBox.margin>

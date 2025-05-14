@@ -56,21 +56,26 @@
                 <Label text="min" />
             </HBox>
 
+            <!-- Prix -->
+            <Label text="Prix (DT):" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+            <TextField fx:id="prixField" promptText="Prix de l'événement"
+                       GridPane.rowIndex="4" GridPane.columnIndex="1" />
+
             <!-- Statut -->
-            <Label text="Statut:" GridPane.rowIndex="4" GridPane.columnIndex="0" />
-            <ComboBox fx:id="statusComboBox" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+            <Label text="Statut:" GridPane.rowIndex="5" GridPane.columnIndex="0" />
+            <ComboBox fx:id="statusComboBox" GridPane.rowIndex="5" GridPane.columnIndex="1" />
 
             <!-- Image -->
-            <Label text="Image:" GridPane.rowIndex="5" GridPane.columnIndex="0" />
-            <HBox spacing="10" GridPane.rowIndex="5" GridPane.columnIndex="1">
+            <Label text="Image:" GridPane.rowIndex="6" GridPane.columnIndex="0" />
+            <HBox spacing="10" GridPane.rowIndex="6" GridPane.columnIndex="1">
                 <TextField fx:id="imageField" promptText="Sélectionner une image" HBox.hgrow="ALWAYS" />
                 <Button fx:id="browseButton" text="Parcourir" onAction="#handleBrowseImage" />
             </HBox>
 
             <!-- Aperçu de l'image -->
-            <Label text="Aperçu:" GridPane.rowIndex="6" GridPane.columnIndex="0" />
+            <Label text="Aperçu:" GridPane.rowIndex="7" GridPane.columnIndex="0" />
             <ImageView fx:id="imagePreview" fitHeight="150" fitWidth="200" preserveRatio="true"
-                       GridPane.rowIndex="6" GridPane.columnIndex="1" />
+                       GridPane.rowIndex="7" GridPane.columnIndex="1" />
         </GridPane>
 
         <!-- Boutons d'action -->

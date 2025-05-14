@@ -62,6 +62,9 @@ public class EventAddController implements Initializable {
     // Le champ maxParticipantsSpinner a été supprimé
 
     @FXML
+    private TextField prixField;
+
+    @FXML
     private ComboBox<String> statusComboBox;
 
     @FXML
@@ -117,6 +120,16 @@ public class EventAddController implements Initializable {
         // Initialiser les date pickers
         dateDebutPicker.setValue(LocalDate.now());
         dateFinPicker.setValue(LocalDate.now());
+
+        // Initialiser le champ de prix avec 0.0
+        prixField.setText("0.0");
+
+        // Ajouter un validateur pour le champ de prix (accepter uniquement les nombres)
+        prixField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*(\\.\\d*)?")){  // Accepte uniquement les chiffres et un point décimal
+                prixField.setText(oldValue);
+            }
+        });
 
         // Désactiver le champ de texte pour l'image (lecture seule)
         imageField.setEditable(false);
@@ -207,6 +220,19 @@ public class EventAddController implements Initializable {
                 return;
             }
 
+            // Valider le prix
+            double prix = 0.0;
+            try {
+                prix = Double.parseDouble(prixField.getText());
+                if (prix < 0) {
+                    showAlert(Alert.AlertType.ERROR, "Erreur de validation", "- Le prix ne peut pas être négatif");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                showAlert(Alert.AlertType.ERROR, "Erreur de validation", "- Le prix doit être un nombre valide");
+                return;
+            }
+
             // Créer l'événement
             Event event = new Event();
             event.setTitle(title);
@@ -215,6 +241,8 @@ public class EventAddController implements Initializable {
             event.setDate_fin(dateFinJava);
             // Utiliser la valeur sélectionnée dans le ComboBox
             event.setStatus(status);
+            // Définir le prix
+            event.setPrix(prix);
             // L'image sera définie après le téléchargement
             event.setUser(currentUser);
 
