@@ -1,0 +1,156 @@
+/* Thème principal */
+.root {
+    -fx-background-color: #f8f9fa;
+}
+
+/* Titre principal */
+.main-title {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #4CAF50 !important;
+    -fx-alignment: center !important;
+    -fx-text-alignment: center !important;
+    -fx-padding: 15px 0 !important;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 2, 0.5, 0, 1) !important;
+    -fx-max-width: infinity !important;
+    -fx-font-family: 'Segoe UI', Arial, sans-serif !important;
+    -fx-background-color: transparent !important;
+    -fx-border-width: 0 !important;
+}
+.force-initial-layout {
+    -fx-padding: 25px 0 25px 0;
+    -fx-background-color: transparent;
+}
+
+.scroll-pane {
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+
+/* Cartes modernes */
+.reclamation-card {
+    -fx-background-color: white;
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(gaussian, rgba(46,125,50,0.1), 12, 0, 0, 3);
+    -fx-padding: 20px;
+    -fx-min-width: 380px;
+    -fx-max-width: 420px;
+    -fx-spacing: 10px;
+    -fx-cursor: hand;
+    -fx-transition: all 0.3s ease;
+}
+
+.reclamation-card:hover {
+    -fx-effect: dropshadow(gaussian, rgba(46,125,50,0.2), 15, 0, 0, 5);
+    -fx-translate-y: -3px;
+}
+
+/* En-tête de carte */
+.card-header {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2E7D32;
+    -fx-padding: 0 0 12px 0;
+    -fx-border-color: linear-gradient(to right, #4CAF50, transparent);
+    -fx-border-width: 0 0 2px 0;
+}
+
+/* Éléments de carte */
+.card-field {
+    -fx-font-size: 16px;
+    -fx-text-fill: #444;
+    -fx-padding: 5px 0;
+}
+
+/* Emojis en couleur et plus grands */
+.emoji {
+    -fx-font-family: "Segoe UI Emoji", "Apple Color Emoji";
+    -fx-font-size: 18px;
+}
+
+/* Barre de recherche modernisée */
+.search-field {
+    -fx-pref-width: 350px;
+    -fx-font-size: 14px;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-padding: 8px 15px;
+    -fx-background-color: white;
+    -fx-border-color: #4CAF50;
+    -fx-border-width: 1.5px;
+}
+
+/* Combo boxes modernes */
+.filter-combo {
+    -fx-pref-width: 220px;
+    -fx-font-size: 14px;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-background-color: white;
+    -fx-border-color: #4CAF50;
+    -fx-border-width: 1.5px;
+}
+
+/* Bouton Retour amélioré */
+.back-button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 12px 30px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 2);
+    -fx-transition: all 0.3s ease;
+}
+
+.back-button:hover {
+    -fx-background-color: #388E3C;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 8, 0, 0, 3);
+    -fx-translate-y: -2px;
+}
+
+/* Style du bouton Supprimer */
+.delete-button {
+    -fx-background-color: #f44336;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 6px 12px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 3, 0, 0, 1);
+}
+
+/* Bouton Voir réponse (20% plus grand) */
+.view-button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 14px; /* Texte plus gros */
+    -fx-font-weight: bold;
+    -fx-padding: 8px 16px; /* Plus d'espace */
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 3, 0, 0, 1);
+    -fx-min-width: 120px; /* Largeur minimale augmentée */
+}
+
+/* Effets hover */
+.delete-button:hover {
+    -fx-background-color: #d32f2f; /* Rouge foncé */
+}
+
+.view-button:hover {
+    -fx-background-color: #45a049; /* Vert foncé */
+}

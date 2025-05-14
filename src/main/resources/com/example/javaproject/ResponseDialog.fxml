@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<VBox xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.javaproject.Controllers.ResponseDialogController"
+      stylesheets="@../Styles/backoffice.css"
+      styleClass="response-container"
+      spacing="15">
+
+    <!-- En-tête -->
+    <HBox styleClass="response-header">
+        <Label text="Répondre à la réclamation" styleClass="header-title"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button styleClass="close-btn" onAction="#handleCancel">
+            <graphic>
+                <Label text="✕" styleClass="close-icon"/>
+            </graphic>
+        </Button>
+    </HBox>
+
+    <!-- Contenu principal -->
+    <VBox styleClass="card-container" spacing="20">
+        <!-- Section Utilisateur -->
+        <!-- Section Utilisateur -->
+        <HBox styleClass="user-info-container" spacing="20" alignment="CENTER_LEFT">
+            <!-- Photo d'avatar fixe -->
+            <ImageView fx:id="userAvatar" fitWidth="60" fitHeight="60" preserveRatio="true">
+                <image>
+                    <Image url="@../assets/pngtree-user-vector-avatar-png-image.jpg"/>
+                </image>
+            </ImageView>
+
+            <!-- Informations utilisateur -->
+            <GridPane styleClass="user-info-grid" HBox.hgrow="ALWAYS">
+                <columnConstraints>
+                    <ColumnConstraints halignment="RIGHT" hgrow="NEVER" prefWidth="80"/>
+                    <ColumnConstraints halignment="LEFT" hgrow="ALWAYS"/>
+                </columnConstraints>
+
+                <Label text="Nom :" styleClass="field-label"/>
+                <Label fx:id="userNom" styleClass="field-value" GridPane.columnIndex="1"/>
+
+                <Label text="Prénom :" styleClass="field-label" GridPane.rowIndex="1"/>
+                <Label fx:id="userPrenom" styleClass="field-value" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                <Label text="Email :" styleClass="field-label" GridPane.rowIndex="2"/>
+                <Label fx:id="userEmail" styleClass="field-value" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            </GridPane>
+        </HBox>
+
+        <!-- Conteneur horizontal pour détails + réponse -->
+        <HBox styleClass="details-response-container" spacing="20">
+            <!-- Section Réclamation (Gauche) -->
+            <VBox styleClass="reclamation-section" spacing="10" HBox.hgrow="ALWAYS">
+                <Label text="DÉTAILS DE LA RÉCLAMATION" styleClass="section-title"/>
+                <VBox fx:id="reclamationDetailsContainer" styleClass="reclamation-details-container"/>
+            </VBox>
+
+            <!-- Section Réponse (Droite) -->
+            <VBox styleClass="response-section" spacing="10" HBox.hgrow="ALWAYS">
+                <Label text="VOTRE RÉPONSE" styleClass="section-title"/>
+                <TextArea fx:id="responseTextArea" styleClass="response-field"
+                          promptText="Saisissez votre réponse professionnelle ici..."
+                          wrapText="true"
+                          VBox.vgrow="ALWAYS"/>
+                <Button fx:id="generateAIButton"
+                        text="Générer avec Gemini"
+                        onAction="#handleGenerateAIResponse"
+                        styleClass="gemini-button">
+                    <graphic>
+                        <ImageView fitWidth="20" fitHeight="20">
+                            <Image url="@../assets/ai.png"/>
+                        </ImageView>
+                    </graphic>
+                </Button>
+
+                <!-- Boutons dans le conteneur de réponse -->
+                <HBox styleClass="response-buttons-container">
+                    <Button text="Annuler" styleClass="cancel-btn" onAction="#handleCancel"/>
+                    <Button text="Envoyer la réponse" styleClass="submit-btn" onAction="#handleSubmit"/>
+                </HBox>
+            </VBox>
+        </HBox>
+    </VBox>
+</VBox>

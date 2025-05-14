@@ -1,0 +1,237 @@
+/* Style global de l'application */
+.root {
+    -fx-background-color: #f4f4f9;
+    -fx-font-family: 'Arial', sans-serif;
+
+}
+
+/* Style du titre principal */
+.main-title {
+    -fx-font-size: 36px !important;
+    -fx-font-weight: bold !important;
+    -fx-text-fill: #4CAF50 !important;
+    -fx-alignment: center !important;
+    -fx-text-alignment: center !important;
+    -fx-padding: 15px 0 !important;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 2, 0.5, 0, 1) !important;
+    -fx-max-width: infinity !important;
+    -fx-font-family: 'Segoe UI', Arial, sans-serif !important;
+    -fx-background-color: transparent !important;
+    -fx-border-width: 0 !important;
+}
+.animated-background {
+    -fx-background-color: #f8fafc;
+}
+
+.animated-circle {
+    -fx-fill: rgba(100, 220, 150, 0.25);  /* Opacité augmentée */
+    -fx-stroke: rgba(70, 180, 120, 0.4); /* Contour plus visible */
+    -fx-stroke-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(100, 220, 150, 0.3), 10, 0.2, 0, 0);
+}
+
+/* Assurez-vous que le formulaire est bien visible par-dessus */
+.form-container {
+    -fx-background-color: rgba(255, 255, 255, 0.9);
+    -fx-background-radius: 10;
+    -fx-padding: 30;
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);
+}
+
+/* Style des labels de champ */
+.label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+    -fx-padding: 5px 5px 5px 0;
+}
+
+/* Style des champs de saisie */
+.text-field, .text-area {
+    -fx-background-color: #ffffff;
+    -fx-border-radius: 8px;
+    -fx-border-color: #cccccc;
+    -fx-font-size: 14px;
+    -fx-padding: 8px;
+    -fx-pref-width: 350px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 3, 0.0, 0, 1);
+}
+
+.text-area {
+    -fx-pref-height: 100px;
+    -fx-wrap-text: true;
+}
+
+.text-area .content {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 8px;
+}
+
+/* Style moderne des ComboBox */
+.combo-box {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 8px;
+    -fx-font-size: 14px;
+    -fx-pref-width: 350px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 3, 0.0, 0, 1);
+    -fx-cursor: hand;
+    -fx-padding: 5px;
+}
+
+.combo-box:hover {
+    -fx-border-color: #a0a0a0;
+}
+
+.combo-box:pressed {
+    -fx-border-color: #4CAF50;
+}
+
+.combo-box .arrow {
+    -fx-background-color: #4CAF50;
+    -fx-shape: "M 0 0 L 5 5 L 10 0 Z";
+    -fx-padding: 5px;
+    -fx-background-insets: 0;
+}
+
+.combo-box .arrow-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 5px 0 0;
+}
+
+.combo-box .list-cell {
+    -fx-background-color: white;
+    -fx-text-fill: #333333;
+    -fx-padding: 8px 12px;
+}
+
+.combo-box .list-cell:filled:hover {
+    -fx-background-color: #f0f0f0;
+    -fx-text-fill: #000000;
+}
+
+.combo-box .list-cell:filled:selected,
+.combo-box .list-cell:filled:selected:focused {
+    -fx-background-color: white;
+    -fx-text-fill: #000000;
+}
+
+.combo-box .list-view {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0.0, 0, 3);
+    -fx-padding: 5px 0;
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: white;
+    -fx-pref-width: 350px;
+}
+
+.combo-box .list-cell:empty {
+    -fx-opacity: 0;
+}
+
+/* Style des boutons */
+.button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-border-radius: 8px;
+    -fx-padding: 10px 25px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0.0, 0, 3);
+    -fx-cursor: hand;
+    -fx-min-width: 120px;
+}
+
+.button:hover {
+    -fx-background-color: #45a049;
+}
+
+.button:pressed {
+    -fx-background-color: #388e3c;
+}
+
+/* Style spécifique pour le bouton Ajouter */
+#ajouterButton {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 12px 30px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 2);
+    -fx-transition: all 0.3s ease;
+}
+
+/* Effet hover */
+#ajouterButton:hover {
+    -fx-background-color: #388E3C;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 8, 0, 0, 3);
+    -fx-translate-y: -2px;
+}
+
+/* Effet quand cliqué */
+#ajouterButton:pressed {
+    -fx-background-color: #2E7D32;
+    -fx-translate-y: 0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 3, 0, 0, 1);
+}
+
+/* Style pour le bouton Liste */
+#listeButton {
+    -fx-background-color: #2196F3;
+}
+
+#listeButton:hover {
+    -fx-background-color: #1976D2;
+}
+
+/* Style pour le focus */
+.text-field:focused, .text-area:focused, .combo-box:focused {
+    -fx-border-color: #4CAF50;
+    -fx-border-width: 1.5px;
+}
+
+/* Conteneur du formulaire */
+.form-container {
+    -fx-alignment: center;
+    -fx-spacing: 15px;
+    -fx-padding: 20px;
+    -fx-max-width: 600px;
+    -fx-background-color: white;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);
+}
+
+/* Messages d'erreur */
+.error-label {
+    -fx-text-fill: #d32f2f;
+    -fx-font-size: 12px;
+    -fx-padding: 2px 0 0 5px;
+    -fx-wrap-text: true;
+    -fx-max-width: 350px;
+}
+
+/* Styles de validation */
+.invalid-field {
+    -fx-border-color: #f44336 !important;
+    -fx-border-width: 1.5px !important;
+}
+
+.valid-field {
+    -fx-border-color: #4CAF50 !important;
+    -fx-border-width: 1.5px !important;
+}
+
+.warning-field {
+    -fx-border-color: #FF9800 !important;
+    -fx-border-width: 1.5px !important;
+}

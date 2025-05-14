@@ -1,0 +1,48 @@
+/* Style de base pour toutes les alertes */
+.dialog-pane {
+    -fx-padding: 20px;
+}
+
+/* Alertes de succès */
+.success-alert {
+    -fx-background-color: #e8f5e9;
+}
+
+.success-alert .header-panel {
+    -fx-background-color: #4caf50;
+}
+
+.success-alert .label.content {
+    -fx-font-size: 14px;
+    -fx-text-fill: #2e7d32;
+}
+
+/* Alertes d'erreur */
+.error-alert {
+    -fx-background-color: #ffebee;
+}
+
+.error-alert .header-panel {
+    -fx-background-color: #f44336;
+}
+
+.error-alert .label.content {
+    -fx-font-size: 14px;
+    -fx-text-fill: #c62828;
+}
+
+/* Style du bouton IA */
+.ai-generate-btn {
+    -fx-background-color: #4285f4;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 15 8 15;
+}
+
+.ai-generate-btn:hover {
+    -fx-background-color: #3367d6;
+}
+
+.ai-generate-btn:disabled {
+    -fx-opacity: 0.7;
+}
