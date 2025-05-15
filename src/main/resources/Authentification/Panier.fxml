@@ -6,149 +6,146 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1000.0" stylesheets="@../styles/modern-search.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.PanierController">
-   <children>
-      <BorderPane layoutX="14.0" layoutY="14.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <top>
-            <VBox spacing="20.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Label text="Mon Panier" styleClass="header-title">
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
-                  </Label>
+<BorderPane prefHeight="700.0" prefWidth="1000.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.PanierController">
+    <top>
+        <VBox>
+            <!-- En-tête -->
+            <HBox styleClass="header" alignment="CENTER_LEFT">
+                <VBox>
+                    <Text text="Mon Panier" styleClass="header-title"/>
+                    <Text text="Gérez vos articles et procédez au paiement" styleClass="header-subtitle"/>
+                </VBox>
+                <padding>
+                    <Insets bottom="15.0" left="30.0" right="30.0" top="15.0" />
+                </padding>
+            </HBox>
 
-                  <!-- Barre de recherche moderne -->
-                  <HBox styleClass="search-container" alignment="CENTER_LEFT">
-                     <children>
-                        <Label text="🔍" styleClass="search-icon" />
-                        <TextField fx:id="searchField" promptText="Rechercher dans votre panier..." styleClass="search-field" HBox.hgrow="ALWAYS" />
-                     </children>
-                  </HBox>
-               </children>
-               <padding>
-                  <Insets bottom="10.0" left="30.0" right="30.0" top="20.0" />
-               </padding>
-            </VBox>
-         </top>
+            <!-- Barre de recherche -->
+            <HBox styleClass="search-bar" alignment="CENTER_LEFT" spacing="15">
+                <TextField fx:id="searchField" promptText="Rechercher dans votre panier..." styleClass="search-field" prefWidth="300"/>
+                <Pane HBox.hgrow="ALWAYS" />
+                <Button text="Rafraîchir" onAction="#Update" styleClass="button"/>
+                <padding>
+                    <Insets bottom="10.0" left="30.0" right="30.0" top="10.0" />
+                </padding>
+            </HBox>
+        </VBox>
+    </top>
 
-         <center>
-            <HBox spacing="20.0" BorderPane.alignment="CENTER">
-               <children>
-                  <!-- Colonne gauche: Liste des articles -->
-                  <VBox spacing="15.0" HBox.hgrow="ALWAYS">
-                     <children>
-                        <!-- Champs cachés pour les données -->
-                        <HBox visible="false">
-                           <children>
-                              <TextField fx:id="txtidp" />
-                              <TextField fx:id="txtdc" />
-                           </children>
-                        </HBox>
+    <center>
+        <BorderPane>
+            <!-- Champs cachés pour les données -->
+            <top>
+                <HBox visible="false">
+                    <TextField fx:id="txtidp" />
+                    <TextField fx:id="txtdc" />
+                </HBox>
+            </top>
 
+            <center>
+                <HBox spacing="20.0" BorderPane.alignment="CENTER">
+                    <!-- Colonne gauche: Liste des articles -->
+                    <VBox spacing="15.0" HBox.hgrow="ALWAYS">
                         <!-- Bouton de retour -->
-                        <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBackButton" style="-fx-background-color: #e74c3c;" text="Retour aux réservations" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
+                        <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBackButton" styleClass="button-warning" text="Retour aux réservations">
+                            <graphic>
+                                <Text text="←" />
+                            </graphic>
                         </Button>
 
                         <!-- Liste des articles -->
-                        <ListView fx:id="panierListView" VBox.vgrow="ALWAYS" />
-
-                        <!-- Code de réduction -->
-                        <HBox spacing="10.0" alignment="CENTER_LEFT">
-                           <children>
-                              <TextField fx:id="txtcr" prefHeight="30.0" prefWidth="200.0" promptText="Code de réduction" />
-                              <Button mnemonicParsing="false" onAction="#Valider" style="-fx-background-color: #e74c3c;" text="Appliquer" textFill="WHITE" />
-                           </children>
-                        </HBox>
+                        <VBox styleClass="content-container" VBox.vgrow="ALWAYS" spacing="10">
+                            <padding>
+                                <Insets top="10.0" right="15.0" bottom="15.0" left="15.0" />
+                            </padding>
+                            <Label text="Articles dans votre panier" styleClass="section-title" />
+                            <ListView fx:id="panierListView" VBox.vgrow="ALWAYS" styleClass="list-view" />
+                        </VBox>
 
                         <!-- Boutons d'action -->
-                        <HBox styleClass="action-buttons">
-                           <children>
-                              <Button mnemonicParsing="false" onAction="#Modifier" style="-fx-background-color: #3498db;" text="Modifier" textFill="WHITE" />
-                              <Button mnemonicParsing="false" onAction="#Supprimer" style="-fx-background-color: #e74c3c;" text="Supprimer" textFill="WHITE" />
-                              <Button mnemonicParsing="false" onAction="#Update" style="-fx-background-color: #2ecc71;" text="Rafraîchir" textFill="WHITE" />
-                           </children>
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <padding>
+                                <Insets top="5.0" right="5.0" bottom="5.0" left="5.0" />
+                            </padding>
+                            <Button mnemonicParsing="false" onAction="#Modifier" styleClass="button" text="Modifier" />
+                            <Button mnemonicParsing="false" onAction="#Supprimer" styleClass="button-danger" text="Supprimer" />
                         </HBox>
-                     </children>
-                     <padding>
-                        <Insets bottom="20.0" left="0.0" right="0.0" top="0.0" />
-                     </padding>
-                  </VBox>
 
-                  <!-- Colonne droite: Résumé et paiement -->
-                  <VBox prefWidth="300.0" spacing="15.0">
-                     <children>
+                        <!-- Code de réduction -->
+                        <HBox spacing="10.0" alignment="CENTER_LEFT" styleClass="search-bar">
+                            <padding>
+                                <Insets top="8.0" right="15.0" bottom="8.0" left="15.0" />
+                            </padding>
+                            <Label text="Code promo:" styleClass="form-label" />
+                            <TextField fx:id="txtcr" prefHeight="30.0" prefWidth="200.0" promptText="Entrez votre code" styleClass="search-field" />
+                            <Button mnemonicParsing="false" onAction="#Valider" styleClass="button-success" text="Appliquer" />
+                        </HBox>
+                    </VBox>
+
+                    <!-- Colonne droite: Résumé et paiement -->
+                    <VBox prefWidth="300.0" spacing="15.0">
                         <!-- Résumé de la commande -->
-                        <VBox styleClass="summary-container">
-                           <children>
-                              <Label styleClass="summary-title" text="Résumé de la commande" />
-                              <Separator />
+                        <VBox styleClass="content-container" spacing="10">
+                            <padding>
+                                <Insets top="10.0" right="15.0" bottom="15.0" left="15.0" />
+                            </padding>
+                            <Label text="Résumé de la commande" styleClass="section-title" />
+                            <Separator />
 
-                              <!-- Sous-total -->
-                              <HBox styleClass="summary-row" alignment="CENTER">
-                                 <children>
-                                    <Label styleClass="summary-label" text="Sous-total" HBox.hgrow="ALWAYS" />
-                                    <Label fx:id="subtotalLabel" styleClass="summary-value" text="0.00 €" />
-                                 </children>
-                              </HBox>
+                            <!-- Sous-total -->
+                            <HBox spacing="10" alignment="CENTER_LEFT" styleClass="event-info">
+                                <Label text="Sous-total:" styleClass="form-label" HBox.hgrow="ALWAYS" />
+                                <Label fx:id="subtotalLabel" text="0.00 €" styleClass="event-price" />
+                            </HBox>
 
-                              <!-- Livraison -->
-                              <HBox styleClass="summary-row" alignment="CENTER">
-                                 <children>
-                                    <Label styleClass="summary-label" text="Livraison" HBox.hgrow="ALWAYS" />
-                                    <Label styleClass="summary-value" text="Gratuite" />
-                                 </children>
-                              </HBox>
+                            <!-- Livraison -->
+                            <HBox spacing="10" alignment="CENTER_LEFT" styleClass="event-info">
+                                <Label text="Livraison:" styleClass="form-label" HBox.hgrow="ALWAYS" />
+                                <Label text="Gratuite" styleClass="status-active" />
+                            </HBox>
 
-                              <!-- TVA -->
-                              <HBox styleClass="summary-row" alignment="CENTER">
-                                 <children>
-                                    <Label styleClass="summary-label" text="TVA (4%)" HBox.hgrow="ALWAYS" />
-                                    <Label fx:id="vatLabel" styleClass="summary-value" text="0.00 €" />
-                                 </children>
-                              </HBox>
+                            <!-- TVA -->
+                            <HBox spacing="10" alignment="CENTER_LEFT" styleClass="event-info">
+                                <Label text="TVA (4%):" styleClass="form-label" HBox.hgrow="ALWAYS" />
+                                <Label fx:id="vatLabel" text="0.00 €" styleClass="event-price" />
+                            </HBox>
 
-                              <Separator />
+                            <Separator>
+                                <VBox.margin>
+                                    <Insets top="10.0" bottom="10.0" />
+                                </VBox.margin>
+                            </Separator>
 
-                              <!-- Total -->
-                              <HBox styleClass="total-row" alignment="CENTER">
-                                 <children>
-                                    <Label styleClass="total-label" text="Total" HBox.hgrow="ALWAYS" />
-                                    <Label fx:id="totalLabel" styleClass="total-value" text="0.00 €" />
-                                 </children>
-                              </HBox>
+                            <!-- Total -->
+                            <HBox spacing="10" alignment="CENTER_LEFT">
+                                <Label text="TOTAL:" styleClass="event-title" HBox.hgrow="ALWAYS" />
+                                <Label fx:id="totalLabel" text="0.00 €" styleClass="event-title" />
+                            </HBox>
 
-                              <!-- Champ total (caché visuellement mais utilisé par le contrôleur) -->
-                              <TextField fx:id="txttc" visible="false" />
+                            <!-- Champ total (caché visuellement mais utilisé par le contrôleur) -->
+                            <TextField fx:id="txttc" visible="false" />
 
-                              <!-- Bouton de paiement -->
-                              <Button mnemonicParsing="false" onAction="#Payer" styleClass="pay-button" text="Procéder au paiement">
-                                 <VBox.margin>
+                            <!-- Bouton de paiement -->
+                            <Button mnemonicParsing="false" onAction="#Payer" styleClass="button-success" text="Procéder au paiement">
+                                <VBox.margin>
                                     <Insets top="20.0" />
-                                 </VBox.margin>
-                              </Button>
-                           </children>
-                           <padding>
-                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                           </padding>
+                                </VBox.margin>
+                            </Button>
                         </VBox>
-                     </children>
-                  </VBox>
-               </children>
-               <padding>
-                  <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
-               </padding>
-            </HBox>
-         </center>
-      </BorderPane>
-   </children>
-</AnchorPane>
+                    </VBox>
+                </HBox>
+                <padding>
+                    <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
+                </padding>
+            </center>
+        </BorderPane>
+    </center>
+</BorderPane>

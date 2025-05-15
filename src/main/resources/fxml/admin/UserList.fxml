@@ -3,15 +3,21 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.shape.SVGPath?>
 <?import javafx.geometry.Insets?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="Controllers.Admin.UserListController"
-            stylesheets="@../../styles/admin-styles.css">
+            stylesheets="@../../styles/admin-styles.css, @../../styles/modern-search.css, @../../styles/user-list-styles.css">
 
     <left>
         <fx:include fx:id="sidebar" source="AdminSidebar.fxml"/>
@@ -19,22 +25,54 @@
 
     <center>
         <VBox spacing="20">
-
             <padding>
                 <Insets top="30" right="30" bottom="30" left="30"/>
             </padding>
 
-            <HBox alignment="CENTER_LEFT" spacing="10">
-                <Button fx:id="backButton" text="Retour" onAction="#handleBack" styleClass="action-button, back-button"/>
-                <Label styleClass="page-title" text="Liste des Utilisateurs"/>
-                <HBox HBox.hgrow="ALWAYS"/>
-                <Button fx:id="refreshButton" text="Rafraîchir" onAction="#handleRefresh" styleClass="action-button"/>
+            <!-- En-tête moderne -->
+            <VBox styleClass="header-container">
+                <HBox alignment="CENTER_LEFT" spacing="15">
+                    <Button fx:id="backButton" text="Retour" onAction="#handleBack" styleClass="action-button, back-button">
+                        <graphic>
+                            <SVGPath content="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" styleClass="button-icon"/>
+                        </graphic>
+                    </Button>
+                    <VBox>
+                        <Label styleClass="page-title" text="Gestion des Utilisateurs"/>
+                        <Label styleClass="subtitle" text="Consultez, recherchez et gérez les utilisateurs de la plateforme"/>
+                    </VBox>
+                    <Pane HBox.hgrow="ALWAYS" />
+                    <Button fx:id="refreshButton" text="Actualiser" onAction="#handleRefresh" styleClass="action-button">
+                        <graphic>
+                            <SVGPath content="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 9.5h7V2.5l-2.35 2.35z" styleClass="button-icon"/>
+                        </graphic>
+                    </Button>
+                </HBox>
+            </VBox>
+
+            <!-- Barre de recherche moderne -->
+            <HBox styleClass="search-bar" alignment="CENTER_LEFT" spacing="15">
+                <VBox spacing="5" HBox.hgrow="ALWAYS">
+                    <Label text="Rechercher un utilisateur" styleClass="filter-label" />
+                    <HBox spacing="10" alignment="CENTER_LEFT" styleClass="modern-search-container">
+                        <Label text="🔍" styleClass="search-icon"/>
+                        <TextField fx:id="searchField" promptText="Entrez un nom, prénom, email ou téléphone..." HBox.hgrow="ALWAYS" styleClass="modern-search-field"/>
+                    </HBox>
+                </VBox>
             </HBox>
 
-            <Label styleClass="section-title" text="Liste des utilisateurs"/>
-            <ListView fx:id="userListView" VBox.vgrow="ALWAYS" styleClass="custom-list-view"/>
+            <!-- Conteneur principal -->
+            <VBox styleClass="content-container" VBox.vgrow="ALWAYS" spacing="15">
+                <!-- En-tête de la liste -->
+                <HBox styleClass="list-header">
+                    <Label styleClass="section-title" text="Liste des utilisateurs"/>
+                    <Pane HBox.hgrow="ALWAYS" />
+                    <Label fx:id="messageLabel" styleClass="event-count" text="0 client(s) trouvé(s)"/>
+                </HBox>
 
-            <Label fx:id="messageLabel" text="Cette page afficherait normalement la liste des utilisateurs" styleClass="info-message"/>
+                <!-- Liste des utilisateurs -->
+                <ListView fx:id="userListView" VBox.vgrow="ALWAYS" styleClass="custom-list-view"/>
+            </VBox>
         </VBox>
     </center>
 </BorderPane>

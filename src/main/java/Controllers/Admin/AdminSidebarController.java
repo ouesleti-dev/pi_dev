@@ -94,35 +94,36 @@ public class AdminSidebarController implements Initializable {
             // Redirection vers la page de login
             System.out.println("Déconnexion réussie");
 
-            // Charger la page de connexion avec le chemin correct
-            URL url = getClass().getResource("/Authentification/login.fxml");
-            if (url == null) {
-                System.err.println("Impossible de trouver le fichier FXML: /Authentification/login.fxml");
-
-                // Essayer avec un chemin absolu
-                File file = new File("src/main/resources/Authentification/login.fxml");
-                if (file.exists()) {
-                    url = file.toURI().toURL();
-                    System.out.println("URL créée à partir du fichier: " + url);
-                } else {
-                    System.err.println("Fichier login.fxml introuvable même avec chemin absolu");
-                    return;
-                }
-            }
-
-            FXMLLoader loader = new FXMLLoader(url);
+            // Charger le fichier FXML de login
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Authentification/login.fxml"));
             Parent root = loader.load();
 
-            // Configurer la scène
-            Scene scene = dashboardButton.getScene();
-            if (scene != null) {
-                Stage stage = (Stage) scene.getWindow();
-                scene = new Scene(root);
+            // Créer une nouvelle scène
+            Scene scene = new Scene(root);
+
+            // Appliquer les styles CSS
+            URL cssUrl = getClass().getResource("/styles/style.css");
+            if (cssUrl != null) {
+                scene.getStylesheets().add(cssUrl.toExternalForm());
+            }
+
+            // Obtenir la fenêtre actuelle
+            Stage stage = null;
+
+            // Essayer d'obtenir la fenêtre à partir d'un élément visible de l'interface
+            if (dashboardButton != null && dashboardButton.getScene() != null) {
+                stage = (Stage) dashboardButton.getScene().getWindow();
+            } else if (logoutButton != null && logoutButton.getScene() != null) {
+                stage = (Stage) logoutButton.getScene().getWindow();
+            }
+
+            // Si nous avons trouvé la fenêtre, changer la scène
+            if (stage != null) {
                 stage.setScene(scene);
                 stage.setTitle("GoVibe - Connexion");
-                System.out.println("Redirection vers la page de connexion");
+                System.out.println("Redirection vers la page de connexion effectuée");
             } else {
-                System.err.println("Scene est null");
+                throw new Exception("Impossible de trouver la fenêtre principale");
             }
         } catch (Exception e) {
             System.err.println("Erreur lors de la déconnexion: " + e.getMessage());

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="500.0" prefWidth="800.0" styleClass="login-pane" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.VerifyCodeController">
+
+    <AnchorPane styleClass="login-container" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0" AnchorPane.bottomAnchor="50.0">
+        <HBox alignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0">
+            <!-- Partie gauche avec le logo -->
+            <VBox alignment="CENTER" prefWidth="300.0" prefHeight="400.0" styleClass="logo-section">
+                <padding>
+                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                </padding>
+                <children>
+                    <ImageView fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@../images/logo.png" />
+                        </image>
+                    </ImageView>
+                </children>
+            </VBox>
+
+            <!-- Partie droite avec le formulaire de vérification -->
+            <VBox alignment="CENTER" prefWidth="400.0" prefHeight="400.0" spacing="15" styleClass="form-section">
+                <padding>
+                    <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                </padding>
+                <children>
+                    <Label styleClass="welcome-text" text="Vérification du code" />
+                    <Label styleClass="login-subtitle" text="Entrez le code à 6 chiffres reçu par email" />
+
+                    <VBox spacing="15" maxWidth="300">
+                        <TextField fx:id="codeField" promptText="Code à 6 chiffres" styleClass="input-field" />
+
+                        <Label fx:id="messageLabel" styleClass="message-label" visible="false" />
+
+                        <Button fx:id="verifyButton" maxWidth="Infinity" onAction="#handleVerifyCode" styleClass="login-button" text="VÉRIFIER" />
+
+                        <HBox alignment="CENTER">
+                            <Label text="Vous n'avez pas reçu de code ? " />
+                            <Hyperlink onAction="#handleResendCode" text="Renvoyer" />
+                        </HBox>
+                        
+                        <HBox alignment="CENTER">
+                            <Label text="Retour à la " />
+                            <Hyperlink onAction="#handleBackToLogin" text="page de connexion" />
+                        </HBox>
+                    </VBox>
+                </children>
+            </VBox>
+        </HBox>
+    </AnchorPane>
+</AnchorPane>

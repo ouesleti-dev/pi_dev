@@ -46,7 +46,7 @@
 
                         <Label fx:id="errorLabel" styleClass="error-label" textFill="RED" visible="false" />
 
-                        <Hyperlink styleClass="forgot-password" text="Mot de passe oublié ?" />
+                        <Hyperlink onAction="#handleForgotPassword" styleClass="forgot-password" text="Mot de passe oublié ?" />
 
                         <Button maxWidth="Infinity" onAction="#handleLogin" styleClass="login-button" text="SE CONNECTER" />
 

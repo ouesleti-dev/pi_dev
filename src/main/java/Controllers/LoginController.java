@@ -195,4 +195,18 @@ public class LoginController {
             e.printStackTrace(); // Pour voir l'erreur complète dans la console
         }
     }
+
+    /**
+     * Gère le clic sur le lien "Mot de passe oublié"
+     * @param event L'événement de clic
+     */
+    @FXML
+    private void handleForgotPassword(ActionEvent event) {
+        try {
+            NavigationUtil.navigateTo(event, "/Authentification/forgot_password.fxml", "GoVibe - Mot de passe oublié");
+        } catch (Exception e) {
+            showError("Erreur de redirection: " + e.getMessage());
+            e.printStackTrace(); // Pour voir l'erreur complète dans la console
+        }
+    }
 }

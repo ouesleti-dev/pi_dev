@@ -31,8 +31,29 @@ public class MyDb {
             // Vérifier et créer la table panier si elle n'existe pas
             createPanierTableIfNotExists();
 
+            // Appliquer les migrations de base de données
+            applyDatabaseMigrations();
+
         } catch (SQLException e) {
             System.out.println("Erreur de connexion à la base de données: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Applique toutes les migrations de base de données nécessaires
+     */
+    private void applyDatabaseMigrations() {
+        try {
+            // Ajouter la colonne is_banned à la table user
+            DatabaseMigration.addIsBannedColumnToUserTable(conn);
+
+            // Ajouter la colonne prix à la table event
+            DatabaseMigration.addPrixColumnToEventTable(conn);
+
+            // Créer la table reset_codes pour la fonctionnalité de mot de passe oublié
+            ResetCodeMigration.createResetCodesTableIfNotExists(conn);
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de l'application des migrations: " + e.getMessage());
         }
     }
 

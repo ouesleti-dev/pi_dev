@@ -1,0 +1,85 @@
+/* Styles spécifiques pour la liste des utilisateurs */
+
+/* Style pour les cartes utilisateur */
+.user-card {
+    -fx-background-color: white;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);
+    -fx-padding: 15px;
+}
+
+/* Style pour la ListView */
+.custom-list-view {
+    -fx-background-color: transparent;
+    -fx-padding: 5px;
+    -fx-cell-size: -1; /* Hauteur variable en fonction du contenu */
+    -fx-fixed-cell-size: -1;
+}
+
+.custom-list-view .list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 8px 5px;
+}
+
+.custom-list-view .list-cell:empty {
+    -fx-opacity: 0;
+    -fx-padding: 0;
+}
+
+/* Style pour les badges de statut */
+.status-badge {
+    -fx-padding: 3px 8px;
+    -fx-background-radius: 4px;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+}
+
+.status-active {
+    -fx-background-color: #2ecc71;
+    -fx-text-fill: white;
+}
+
+.status-banned {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+}
+
+/* Style pour les icônes d'information */
+.info-icon {
+    -fx-font-family: "Segoe UI Emoji", "Apple Color Emoji";
+    -fx-font-size: 14px;
+}
+
+/* Style pour les boutons d'action */
+.action-icon-button {
+    -fx-background-radius: 20px;
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-font-size: 16px;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+.ban-button {
+    -fx-background-color: #e74c3c;
+}
+
+.ban-button:hover {
+    -fx-background-color: #c0392b;
+}
+
+.unban-button {
+    -fx-background-color: #3498db;
+}
+
+.unban-button:hover {
+    -fx-background-color: #2980b9;
+}
+
+.delete-button {
+    -fx-background-color: #7f8c8d;
+}
+
+.delete-button:hover {
+    -fx-background-color: #95a5a6;
+}

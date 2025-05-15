@@ -408,16 +408,19 @@ public class ReservationListController implements Initializable {
 
             // Rediriger vers la page panier.fxml
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Authentification/panier.fxml"));
+                // Utiliser le chemin correct avec la bonne casse
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Authentification/Panier.fxml"));
                 Parent root = loader.load();
 
                 // Récupérer la scène actuelle
-                Scene currentScene = ((Button)reservationListView.getScene().getFocusOwner()).getScene();
+                Scene currentScene = reservationListView.getScene();
                 Stage stage = (Stage) currentScene.getWindow();
 
                 // Remplacer la scène actuelle par la page panier
                 stage.setScene(new Scene(root));
                 stage.setTitle("Panier");
+
+                System.out.println("Redirection vers la page panier réussie");
 
             } catch (IOException e) {
                 showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur de navigation",

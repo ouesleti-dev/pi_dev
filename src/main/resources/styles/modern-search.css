@@ -21,7 +21,55 @@
 }
 
 .search-icon {
-    -fx-fill: #aaaaaa;
+    -fx-text-fill: #aaaaaa;
+    -fx-font-size: 16px;
+}
+
+/* Styles pour la barre de recherche moderne et professionnelle */
+.modern-search-container {
+    -fx-background-color: white;
+    -fx-background-radius: 25px;
+    -fx-border-radius: 25px;
+    -fx-border-color: #e0e0e0;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 2);
+    -fx-padding: 10px 15px;
+    -fx-alignment: center-left;
+    -fx-min-height: 45px;
+    -fx-margin: 10px 0;
+}
+
+.modern-search-container:focused-within {
+    -fx-border-color: #3498db;
+    -fx-effect: dropshadow(three-pass-box, rgba(52,152,219,0.2), 10, 0, 0, 3);
+    -fx-border-width: 1.5px;
+}
+
+.modern-search-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-prompt-text-fill: #aaaaaa;
+    -fx-font-size: 14px;
+    -fx-padding: 0 5px;
+}
+
+.modern-search-field:focused {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+/* Styles pour les labels de la barre de recherche */
+.search-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3498db;
+    -fx-padding: 0 0 0 5px;
+}
+
+.search-hint {
+    -fx-font-size: 12px;
+    -fx-text-fill: #95a5a6;
+    -fx-font-style: italic;
+    -fx-padding: 0 0 0 5px;
 }
 
 /* Styles pour la ListView personnalisée */

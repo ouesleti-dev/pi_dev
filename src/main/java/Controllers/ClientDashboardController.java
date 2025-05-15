@@ -3,6 +3,7 @@ package Controllers;
 import Models.Event;
 import Models.ReserverEvent;
 import Models.User;
+import Utils.NavigationUtil;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -172,24 +174,44 @@ public class ClientDashboardController implements Initializable {
         authService.logout();
 
         try {
-            // Charger la page de connexion avec le chemin correct
-            File file = new File("src/main/resources/Authentification/login.fxml");
-            if (file.exists()) {
-                URL url = file.toURI().toURL();
-                FXMLLoader loader = new FXMLLoader(url);
-                Parent root = loader.load();
+            // Charger le fichier FXML de login
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Authentification/login.fxml"));
+            Parent root = loader.load();
 
-                // Configurer la scène
-                Stage stage = (Stage) userInfoText.getScene().getWindow();
-                Scene scene = new Scene(root);
+            // Créer une nouvelle scène
+            Scene scene = new Scene(root);
+
+            // Appliquer les styles CSS
+            URL cssUrl = getClass().getResource("/styles/style.css");
+            if (cssUrl != null) {
+                scene.getStylesheets().add(cssUrl.toExternalForm());
+            }
+
+            // Obtenir la fenêtre actuelle
+            // Comme l'événement peut venir d'un MenuItem qui n'est pas un Node,
+            // nous utilisons une approche différente pour obtenir la fenêtre
+            Stage stage = null;
+
+            // Essayer d'obtenir la fenêtre à partir d'un élément visible de l'interface
+            if (userInfoText != null && userInfoText.getScene() != null) {
+                stage = (Stage) userInfoText.getScene().getWindow();
+            }
+
+            // Si nous n'avons pas pu obtenir la fenêtre, essayer avec d'autres éléments
+            if (stage == null && availableEventsText != null && availableEventsText.getScene() != null) {
+                stage = (Stage) availableEventsText.getScene().getWindow();
+            }
+
+            // Si nous avons trouvé la fenêtre, changer la scène
+            if (stage != null) {
                 stage.setScene(scene);
                 stage.setTitle("GoVibe - Connexion");
-                stage.show();
+                System.out.println("Redirection vers la page de connexion effectuée");
             } else {
-                showAlert(Alert.AlertType.ERROR, "Erreur de navigation", "Fichier FXML non trouvé: " + file.getAbsolutePath());
+                throw new Exception("Impossible de trouver la fenêtre principale");
             }
-        } catch (IOException e) {
-            showAlert(Alert.AlertType.ERROR, "Erreur de navigation", "Impossible de charger la page de connexion.");
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Erreur de navigation", "Impossible de charger la page de connexion: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -246,9 +268,22 @@ public class ClientDashboardController implements Initializable {
 
     @FXML
     public void handleViewProfile(ActionEvent event) {
+        // Rediriger vers l'onglet Profil du tableau de bord
+        TabPane tabPane = (TabPane) userInfoText.getScene().lookup("#tabPane");
+        if (tabPane != null) {
+            // Sélectionner l'onglet Profil (supposons que c'est le dernier onglet)
+            tabPane.getSelectionModel().select(tabPane.getTabs().size() - 1);
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de trouver l'onglet Profil.");
+        }
+    }
+
+
+    @FXML
+    public void handleEditProfile(ActionEvent event) {
         try {
-            // Charger le fichier FXML de la nouvelle interface (par exemple "ProfileView.fxml")
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("profileuser.fxml"));
+            // Charger le fichier FXML de modification du profil
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Controllers/profileuser.fxml"));
             Parent root = loader.load();
 
             // Créer une nouvelle scène
@@ -259,19 +294,13 @@ public class ClientDashboardController implements Initializable {
 
             // Changer la scène
             stage.setScene(scene);
-            stage.setTitle("Profil Utilisateur");
+            stage.setTitle("Modifier mon profil");
             stage.show();
 
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de charger la vue du profil.");
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de charger la vue de modification du profil: " + e.getMessage());
         }
-    }
-
-
-    @FXML
-    public void handleEditProfile(ActionEvent event) {
-        showAlert(Alert.AlertType.INFORMATION, "Information", "Fonctionnalité non implémentée");
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String message) {

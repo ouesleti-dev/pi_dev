@@ -10,7 +10,7 @@
 }
 
 .action-button {
-    -fx-background-color: #3498db;
+    -fx-background-color: #5DADE2;
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-padding: 8 15;
@@ -18,7 +18,7 @@
 }
 
 .action-button:hover {
-    -fx-background-color: #2980b9;
+    -fx-background-color: #3498db;
 }
 
 .add-button {
@@ -55,15 +55,18 @@
 }
 
 .welcome-card {
-    -fx-background-color: white;
+    -fx-background-color: #f8f9fa;
     -fx-background-radius: 10;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 8, 0, 0, 0);
+    -fx-border-color: #e9ecef;
+    -fx-border-radius: 10;
+    -fx-border-width: 1;
 }
 
 .welcome-title {
     -fx-font-size: 28px;
     -fx-font-weight: bold;
-    -fx-fill: #2c3e50;
+    -fx-fill: #5DADE2;
 }
 
 .welcome-subtitle {
@@ -72,16 +75,19 @@
 }
 
 .stat-card {
-    -fx-background-color: white;
+    -fx-background-color: #f8f9fa;
     -fx-background-radius: 10;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 8, 0, 0, 0);
     -fx-alignment: center;
+    -fx-border-color: #e9ecef;
+    -fx-border-radius: 10;
+    -fx-border-width: 1;
 }
 
 .stat-number {
     -fx-font-size: 36px;
     -fx-font-weight: bold;
-    -fx-text-fill: #3498db;
+    -fx-text-fill: #5DADE2;
 }
 
 .stat-label {
@@ -105,7 +111,7 @@
 .section-title {
     -fx-font-size: 18px;
     -fx-font-weight: bold;
-    -fx-text-fill: #2c3e50;
+    -fx-text-fill: #5DADE2;
 }
 
 .custom-list-view {
@@ -221,4 +227,34 @@
 
 .back-button:hover {
     -fx-background-color: #95a5a6;
+}
+
+/* Style pour le conteneur du graphique */
+.chart-container {
+    -fx-background-color: #f8f9fa;
+    -fx-background-radius: 10;
+    -fx-padding: 15;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 8, 0, 0, 0);
+    -fx-border-color: #e9ecef;
+    -fx-border-radius: 10;
+    -fx-border-width: 1;
+}
+
+/* Style pour le graphique */
+.chart {
+    -fx-background-color: transparent;
+    -fx-padding: 10;
+}
+
+/* Style pour les axes du graphique */
+.axis {
+    -fx-tick-label-fill: #7f8c8d;
+    -fx-font-size: 12px;
+}
+
+/* Style pour le titre du graphique */
+.chart-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #5DADE2;
 }

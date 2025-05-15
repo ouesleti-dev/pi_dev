@@ -1,5 +1,7 @@
 package Utils;
 
+import Controllers.ResetPasswordController;
+import Controllers.VerifyCodeController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -84,5 +86,70 @@ public class NavigationUtil {
         stage.show();
 
         return loader.getController();
+    }
+
+    /**
+     * Navigue vers une nouvelle page FXML avec un paramètre userId
+     * @param event L'événement qui a déclenché la navigation
+     * @param fxmlPath Le chemin vers le fichier FXML
+     * @param title Le titre de la fenêtre
+     * @param userId L'ID de l'utilisateur à passer au contrôleur
+     * @throws IOException En cas d'erreur lors du chargement du fichier FXML
+     */
+    public static void navigateTo(ActionEvent event, String fxmlPath, String title, int userId) throws IOException {
+        FXMLLoader loader = new FXMLLoader(NavigationUtil.class.getResource(fxmlPath));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+
+        // Appliquer les styles CSS de base
+        String cssPath = "/styles/style.css";
+        URL cssUrl = NavigationUtil.class.getResource(cssPath);
+        if (cssUrl != null) {
+            scene.getStylesheets().add(cssUrl.toExternalForm());
+        }
+
+        // Initialiser le contrôleur avec l'ID de l'utilisateur
+        if (fxmlPath.contains("verify_code.fxml")) {
+            VerifyCodeController controller = loader.getController();
+            controller.initData(userId);
+        }
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setTitle(title);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    /**
+     * Navigue vers une nouvelle page FXML avec un paramètre userId et resetCodeId
+     * @param event L'événement qui a déclenché la navigation
+     * @param fxmlPath Le chemin vers le fichier FXML
+     * @param title Le titre de la fenêtre
+     * @param userId L'ID de l'utilisateur à passer au contrôleur
+     * @param resetCodeId L'ID du code de réinitialisation à passer au contrôleur
+     * @throws IOException En cas d'erreur lors du chargement du fichier FXML
+     */
+    public static void navigateTo(ActionEvent event, String fxmlPath, String title, int userId, int resetCodeId) throws IOException {
+        FXMLLoader loader = new FXMLLoader(NavigationUtil.class.getResource(fxmlPath));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+
+        // Appliquer les styles CSS de base
+        String cssPath = "/styles/style.css";
+        URL cssUrl = NavigationUtil.class.getResource(cssPath);
+        if (cssUrl != null) {
+            scene.getStylesheets().add(cssUrl.toExternalForm());
+        }
+
+        // Initialiser le contrôleur avec l'ID de l'utilisateur et l'ID du code de réinitialisation
+        if (fxmlPath.contains("reset_password.fxml")) {
+            ResetPasswordController controller = loader.getController();
+            controller.initData(userId, resetCodeId);
+        }
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setTitle(title);
+        stage.setScene(scene);
+        stage.show();
     }
 }

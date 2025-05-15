@@ -41,4 +41,30 @@ public class DatabaseMigration {
             System.out.println(rowsUpdated + " événements mis à jour avec un prix par défaut");
         }
     }
+
+    /**
+     * Ajoute la colonne is_banned à la table user
+     * @param connection La connexion à la base de données
+     * @throws SQLException En cas d'erreur SQL
+     */
+    public static void addIsBannedColumnToUserTable(Connection connection) throws SQLException {
+        // Vérifier si la connexion est valide
+        if (connection == null || connection.isClosed()) {
+            throw new SQLException("La connexion à la base de données n'est pas valide");
+        }
+
+        // Ajouter la colonne is_banned à la table user
+        String addBannedColumnSQL = "ALTER TABLE user ADD COLUMN is_banned BOOLEAN DEFAULT 0";
+        try (PreparedStatement statement = connection.prepareStatement(addBannedColumnSQL)) {
+            statement.executeUpdate();
+            System.out.println("Colonne 'is_banned' ajoutée à la table 'user'");
+        } catch (SQLException e) {
+            // Si la colonne existe déjà, ignorer l'erreur
+            if (e.getMessage().contains("Duplicate column name") || e.getMessage().contains("column already exists")) {
+                System.out.println("La colonne 'is_banned' existe déjà dans la table 'user'");
+            } else {
+                throw e;
+            }
+        }
+    }
 }

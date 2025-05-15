@@ -2,6 +2,7 @@ package Controllers;
 
 import Models.User;
 import Services.AuthService;
+import Utils.NavigationUtil;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -47,24 +48,39 @@ public class HomeController implements Initializable {
         authService.logout();
 
         try {
-            // Charger la page de connexion avec le chemin correct
-            File file = new File("src/main/resources/Authentification/login.fxml");
-            if (file.exists()) {
-                URL url = file.toURI().toURL();
-                FXMLLoader loader = new FXMLLoader(url);
-                Parent root = loader.load();
+            // Charger le fichier FXML de login
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Authentification/login.fxml"));
+            Parent root = loader.load();
 
-                // Configurer la scène
-                Stage stage = (Stage) welcomeText.getScene().getWindow();
-                Scene scene = new Scene(root);
+            // Créer une nouvelle scène
+            Scene scene = new Scene(root);
+
+            // Appliquer les styles CSS
+            URL cssUrl = getClass().getResource("/styles/style.css");
+            if (cssUrl != null) {
+                scene.getStylesheets().add(cssUrl.toExternalForm());
+            }
+
+            // Obtenir la fenêtre actuelle
+            // Comme l'événement peut venir d'un MenuItem qui n'est pas un Node,
+            // nous utilisons une approche différente pour obtenir la fenêtre
+            Stage stage = null;
+
+            // Essayer d'obtenir la fenêtre à partir d'un élément visible de l'interface
+            if (welcomeText != null && welcomeText.getScene() != null) {
+                stage = (Stage) welcomeText.getScene().getWindow();
+            }
+
+            // Si nous avons trouvé la fenêtre, changer la scène
+            if (stage != null) {
                 stage.setScene(scene);
                 stage.setTitle("GoVibe - Connexion");
-                stage.show();
+                System.out.println("Redirection vers la page de connexion effectuée");
             } else {
-                showAlert(Alert.AlertType.ERROR, "Erreur de navigation", "Fichier FXML non trouvé: " + file.getAbsolutePath());
+                throw new Exception("Impossible de trouver la fenêtre principale");
             }
-        } catch (IOException e) {
-            showAlert(Alert.AlertType.ERROR, "Erreur de navigation", "Impossible de charger la page de connexion.");
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Erreur de navigation", "Impossible de charger la page de connexion: " + e.getMessage());
             e.printStackTrace();
         }
     }

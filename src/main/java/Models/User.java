@@ -8,8 +8,10 @@ public class User {
     private String prenom;
     private String email;
     private String telephone;
+    private String adresse;
     private String password;
     private boolean isVerified;
+    private boolean isBanned;
     private Role role;
     private Timestamp createdAt;
 
@@ -25,6 +27,7 @@ public class User {
     public User() {
         this.role = Role.ROLE_CLIENT;
         this.isVerified = false;
+        this.isBanned = false;
     }
 
     // Constructeur sans id (pour création)
@@ -91,6 +94,14 @@ public class User {
         this.telephone = telephone;
     }
 
+    public String getAdresse() {
+        return adresse;
+    }
+
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+
     public boolean isVerified() {
         return isVerified;
     }
@@ -121,6 +132,14 @@ public class User {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public boolean isBanned() {
+        return isBanned;
+    }
+
+    public void setBanned(boolean banned) {
+        isBanned = banned;
     }
 
     @Override
