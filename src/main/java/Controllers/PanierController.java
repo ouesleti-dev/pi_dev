@@ -102,7 +102,9 @@ public class PanierController implements Initializable {
                 String lowerCaseFilter = newValue.toLowerCase();
 
                 // Comparer les champs du panier avec le texte de recherche
-                if (String.valueOf(panier.getId_events()).toLowerCase().contains(lowerCaseFilter)) {
+                if (String.valueOf(panier.getId_panier()).toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Correspondance sur l'ID du panier
+                } else if (String.valueOf(panier.getId_events()).toLowerCase().contains(lowerCaseFilter)) {
                     return true; // Correspondance sur l'ID de l'événement
                 } else if (String.valueOf(panier.getPrix()).toLowerCase().contains(lowerCaseFilter)) {
                     return true; // Correspondance sur le prix
@@ -110,18 +112,18 @@ public class PanierController implements Initializable {
                     return true; // Correspondance sur la quantité
                 } else if (String.valueOf(panier.getPrix_total()).toLowerCase().contains(lowerCaseFilter)) {
                     return true; // Correspondance sur le prix total
-                } else if (panier.getStatut().toString().toLowerCase().contains(lowerCaseFilter)) {
+                } else if (panier.getStatut() != null && panier.getStatut().toString().toLowerCase().contains(lowerCaseFilter)) {
                     return true; // Correspondance sur le statut
                 }
                 return false; // Pas de correspondance
             });
 
+            // Mettre à jour la ListView avec les données filtrées
+            panierListView.setItems(filteredData);
+
             // Mettre à jour le résumé en fonction des éléments filtrés
             updateSummary(filteredData);
         });
-
-        // Ajouter les données filtrées à la ListView
-        panierListView.setItems(filteredData);
     }
 
     private void updateSummary(FilteredList<Panier> filteredData) {
