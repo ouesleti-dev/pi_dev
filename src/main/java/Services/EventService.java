@@ -232,7 +232,7 @@ public class EventService {
     private void sendEventApprovalSMS(String eventTitle, String userName) {
         try {
             // Numéro de téléphone de l'administrateur
-            String adminPhoneNumber = "+21658876140";
+            String adminPhoneNumber = "+21620418907";
 
             // Message à envoyer
             String message = "Un nouvel événement a été approuvé: '" + eventTitle + "' créé par " + userName;
@@ -260,7 +260,7 @@ public class EventService {
             }
 
             // Numéro de téléphone de l'administrateur
-            String adminPhoneNumber = "+21658876140";
+            String adminPhoneNumber = "+21620418907";
 
             // Récupérer les informations de l'événement pour le SMS
             String eventTitle = event.getTitle();
