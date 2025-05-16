@@ -1,8 +1,6 @@
 package Services;
 
-import Models.Personne;
 import Models.User;
-import Models.UserSession;
 import Utils.MyDb;
 
 import java.sql.Connection;
@@ -20,6 +18,49 @@ public class UserService implements  IService<User>{
 
     public UserService(){
         this.conn = MyDb.getInstance().getConn();
+    }
+
+    /**
+     * Trouve un utilisateur par son email
+     * @param email L'email de l'utilisateur
+     * @return L'utilisateur trouvé ou null s'il n'existe pas
+     */
+    /**
+     * Trouve un utilisateur par son ID
+     * @param id L'ID de l'utilisateur
+     * @return L'utilisateur trouvé ou null s'il n'existe pas
+     */
+    public User getById(int id) {
+        String query = "SELECT * FROM user WHERE id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    User user = new User();
+                    user.setId(rs.getInt("id"));
+                    user.setNom(rs.getString("nom"));
+                    user.setPrenom(rs.getString("prenom"));
+                    user.setEmail(rs.getString("email"));
+                    user.setPassword(rs.getString("password"));
+                    // Convert string role to enum
+                    String roleStr = rs.getString("role");
+                    if (roleStr != null) {
+                        try {
+                            user.setRole(User.Role.valueOf(roleStr));
+                        } catch (IllegalArgumentException e) {
+                            // Default to client role if role is invalid
+                            user.setRole(User.Role.ROLE_CLIENT);
+                        }
+                    }
+                    user.setTelephone(rs.getString("telephone"));
+                    return user;
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la recherche d'un utilisateur par ID: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**

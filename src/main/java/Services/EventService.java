@@ -2,7 +2,7 @@ package Services;
 
 import Models.Event;
 import Models.User;
-import Services.SMSService;
+import Services.SMSServices;
 import Utils.EventValidator;
 import Utils.MyDb;
 
@@ -238,7 +238,8 @@ public class EventService {
             String message = "Un nouvel événement a été approuvé: '" + eventTitle + "' créé par " + userName;
 
             // Envoyer le SMS
-            SMSService.sendSMS(adminPhoneNumber, message);
+            SMSServices smsServices = new SMSServices();
+            smsServices.sendAdminNotification(adminPhoneNumber);
 
             System.out.println("SMS envoyé à l'administrateur: " + message);
         } catch (Exception e) {
@@ -270,7 +271,8 @@ public class EventService {
             String message = "Nouvel événement en attente d'approbation: '" + eventTitle + "' créé par " + userName;
 
             // Envoyer le SMS
-            SMSService.sendSMS(adminPhoneNumber, message);
+            SMSServices smsServices = new SMSServices();
+            smsServices.sendAdminNotification(adminPhoneNumber);
 
             System.out.println("SMS envoyé à l'administrateur: " + message);
         } catch (Exception e) {

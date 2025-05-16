@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../Styles/dark-theme.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AjouterCommentaireControllerr">
+
+    <children>
+        <Label layoutX="15.0" layoutY="-10.0" prefHeight="77.0" prefWidth="475.0" text="Ajouter Commentaire">
+            <font>
+                <Font name="System Bold" size="29.0" />
+            </font>
+        </Label>
+
+        <Label layoutX="40.0" layoutY="70.0" prefHeight="18.0" prefWidth="79.0" text="Id-Post" />
+        <TextField fx:id="idPost" layoutX="112.0" layoutY="64.0" promptText="idPost" />
+
+        <Label layoutX="40.0" layoutY="103.0" text="Auteur" />
+        <TextField fx:id="auteur" layoutX="112.0" layoutY="97.0" promptText="Auteur" />
+
+        <Label layoutX="40.0" layoutY="142.0" text="Contenu" />
+        <TextField fx:id="contenu" layoutX="113.0" layoutY="136.0" promptText="Contenu" />
+
+        <Label layoutX="40.0" layoutY="177.0" text="Date" />
+        <DatePicker fx:id="dateCommentaire" layoutX="113.0" layoutY="170.0" promptText="YYYY-MM-DD" />
+
+        <Button fx:id="Create" layoutX="154.0" layoutY="209.0" mnemonicParsing="false" onAction="#Create" prefHeight="34.0" prefWidth="124.0" text="Ajouter" />
+        <Button fx:id="Afficher" layoutX="306.0" layoutY="209.0" mnemonicParsing="false" onAction="#Afficher" prefHeight="34.0" prefWidth="130.0" text="Afficher" />
+        <Button fx:id="supprimer" layoutX="155.0" layoutY="304.0" mnemonicParsing="false" onAction="#supprimer" prefHeight="34.0" prefWidth="136.0" text="Supprimer" />
+        <Button fx:id="modifier" layoutX="306.0" layoutY="304.0" mnemonicParsing="false" onAction="#modifier" prefHeight="34.0" prefWidth="130.0" text="Modifier" />
+        <Button fx:id="checkBadWordsButton" layoutX="154.0" layoutY="255.0" mnemonicParsing="false" onAction="#checkBadWords" prefHeight="34.0" prefWidth="285.0" text="Vérifier mots inappropriés" />
+
+        <Label fx:id="resultLabel" layoutX="66.0" layoutY="348.0" prefHeight="30.0" prefWidth="482.0" text="" />
+
+        <ImageView fitHeight="172.0" fitWidth="247.0" layoutX="414.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../img_1.png" />
+            </image>
+        </ImageView>
+    </children>
+</AnchorPane>

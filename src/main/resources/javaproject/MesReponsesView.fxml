@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controllers.MesReponsesController"
+            fx:id="rootPane" stylesheets="@../Styles/backoffice.css">
+    <bottom>
+        <HBox alignment="CENTER" style="-fx-padding: 20;">
+            <Button text="Retour" styleClass="response-button"
+                    onAction="#handleRetourButton" />
+        </HBox>
+    </bottom>
+
+    <center>
+        <VBox alignment="TOP_CENTER" spacing="20" styleClass="list-container">
+            <padding>
+                <Insets top="20" bottom="20" left="20" right="20"/>
+            </padding>
+
+            <Label text="Mes Réponses" styleClass="main-title"/>
+
+            <!-- En-têtes de colonnes -->
+            <GridPane styleClass="list-header" style="-fx-font-size: 14px; -fx-background-color: #4c51bf;">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="15" halignment="CENTER"/>
+                    <ColumnConstraints percentWidth="25" halignment="LEFT"/>
+                    <ColumnConstraints percentWidth="30" halignment="LEFT"/> <!-- Réduisez cette largeur -->
+                    <ColumnConstraints percentWidth="15" halignment="CENTER"/>
+                    <ColumnConstraints percentWidth="15" halignment="CENTER"/> <!-- Nouvelle colonne pour les actions -->
+                </columnConstraints>
+
+                <children>
+                    <Label text="Date" GridPane.columnIndex="0" style="-fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Label text="Réclamation" GridPane.columnIndex="1" style="-fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Label text="Réponse" GridPane.columnIndex="2" style="-fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Label text="Utilisateur" GridPane.columnIndex="3" style="-fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Label text="Actions" GridPane.columnIndex="4" style="-fx-text-fill: white; -fx-font-weight: bold;"/>
+                </children>
+            </GridPane>
+
+            <!-- ListView avec apparence tabulaire -->
+            <ListView fx:id="reponsesList" styleClass="tabular-list"
+                      style="-fx-font-size: 20px; -fx-background-color: white; -fx-border-color: #e2e8f0;"/>
+        </VBox>
+    </center>
+</BorderPane>

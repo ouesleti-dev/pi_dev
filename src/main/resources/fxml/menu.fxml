@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<?import java.net.URL?>
+<VBox prefHeight="200.0" prefWidth="300.0" spacing="10.0" alignment="CENTER" styleClass="vbox" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.menu">
+    <stylesheets>
+        <URL value="@../Styles/Styles.css" />
+    </stylesheets>
+    <children>
+        <Button fx:id="backButton" text="Retour à l'accueil" onAction="#backToHome" styleClass="button" style="-fx-background-color: #3498db; -fx-text-fill: white;" />
+        <Text text="Gestion de Blog" styleClass="text" />
+        <Button fx:id="openPostButton" text="Ouvrir Posts" onAction="#openPostInterface" styleClass="button" />
+        <Button fx:id="openCommentaireButton" text="Ouvrir Commentaires" onAction="#openCommentaireInterface" styleClass="button" />
+    </children>
+</VBox>

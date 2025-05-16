@@ -1,0 +1,59 @@
+.root {
+    -fx-base: #1e1e1e;
+    -fx-background-color: #000000;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.label, .text-field, .text-area, .button, .combo-box, .table-view, .date-picker {
+    -fx-text-fill: white;
+}
+
+.button {
+    -fx-background-color: #0078d7;
+    -fx-text-fill: white;
+    -fx-background-radius: 10;
+    -fx-padding: 8 15 8 15;
+}
+
+.button:hover {
+    -fx-background-color: #2898ff;
+}
+
+.text-field, .text-area, .combo-box, .date-picker {
+    -fx-background-color: #2a2a2a;
+    -fx-background-radius: 6;
+    -fx-border-color: #3a3a3a;
+    -fx-border-radius: 6;
+    -fx-border-width: 1;
+}
+
+.table-view {
+    -fx-background-color: #2a2a2a;
+    -fx-table-cell-border-color: transparent;
+    -fx-padding: 10;
+    -fx-text-background-color: white;
+}
+
+.table-row-cell {
+    -fx-background-color: #2a2a2a;
+}
+
+.table-row-cell:filled:selected, .table-row-cell:focused:selected {
+    -fx-background-color: #0078d7;
+    -fx-text-fill: white;
+}
+
+.tab-pane .tab-header-background {
+    -fx-background-color: #1e1e1e;
+}
+
+.tab {
+    -fx-background-color: #2a2a2a;
+    -fx-text-fill: white;
+}
+
+.tab:selected {
+    -fx-background-color: #0078d7;
+}
