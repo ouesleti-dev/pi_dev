@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../Styles/dark-theme.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.statisticPost">
+   <children>
+      <Label fx:id="auteur" layoutX="126.0" layoutY="297.0" prefHeight="53.0" prefWidth="361.0" text="          auteuractif" textAlignment="CENTER" textFill="#9e3939">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></Label>
+      <Button fx:id="AuteurActif" layoutX="144.0" layoutY="189.0" mnemonicParsing="false" onAction="#AuteurActif" prefHeight="66.0" prefWidth="290.0" text="l'auteur le plus actif" />
+      <ImageView fitHeight="207.0" fitWidth="227.0" layoutY="-18.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../img_18.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

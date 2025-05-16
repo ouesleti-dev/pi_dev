@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Controllers.ModifierCommentaireController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <children>
+        <VBox alignment="CENTER" spacing="10.0" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
+            <children>
+                <Label text="ID du Commentaire à modifier" />
+                <TextField fx:id="idCommentaire" promptText="Entrez l'ID" />
+
+                <Label text="Auteur" />
+                <TextField fx:id="auteur" promptText="Auteur" />
+
+                <Label text="Contenu" />
+                <TextField fx:id="contenu" promptText="Contenu du commentaire" />
+
+                <Label text="Date du commentaire" />
+                <DatePicker fx:id="dateCommentaire" />
+
+                <Button fx:id="Update" text="Mettre à jour" onAction="#Update" />
+            </children>
+            <padding>
+                <Insets top="20" right="30" bottom="20" left="30" />
+            </padding>
+        </VBox>
+    </children>
+</AnchorPane>
+

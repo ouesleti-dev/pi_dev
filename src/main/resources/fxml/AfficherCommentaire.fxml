@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            xmlns="http://javafx.com/javafx"
+            fx:controller="Controllers.AffichierCommentaireController"
+            prefWidth="600.0" prefHeight="400.0">
+
+    <TableView fx:id="table" layoutX="20.0" layoutY="20.0" prefWidth="560.0" prefHeight="360.0">
+        <columns>
+            <TableColumn fx:id="idCommentaire" text="ID Commentaire" prefWidth="100"/>
+            <TableColumn fx:id="auteur" text="Auteur" prefWidth="100"/>
+            <TableColumn fx:id="contenu" text="Contenu" prefWidth="150"/>
+            <TableColumn fx:id="dateCommentaire" text="Date" prefWidth="100"/>
+            <TableColumn fx:id="idPost" text="ID Post" prefWidth="100"/>
+        </columns>
+    </TableView>
+
+</AnchorPane>

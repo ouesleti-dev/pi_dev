@@ -13,6 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TabPane;
@@ -302,12 +303,105 @@ public class ClientDashboardController implements Initializable {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de charger la vue de modification du profil: " + e.getMessage());
         }
     }
+    
+    @FXML
+    public void handleBlogs(ActionEvent event) {
+        try {
+            // Charger le fichier menu.fxml pour la section blogs
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/menu.fxml"));
+            Parent root = loader.load();
 
+            // Créer une nouvelle scène
+            Scene scene = new Scene(root);
+
+            // Obtenir la fenêtre actuelle
+            // Comme l'événement peut venir d'un MenuItem qui n'est pas un Node,
+            // nous utilisons une approche différente pour obtenir la fenêtre
+            Stage stage = null;
+
+            // Essayer d'obtenir la fenêtre à partir d'un élément visible de l'interface
+            if (userInfoText != null && userInfoText.getScene() != null) {
+                stage = (Stage) userInfoText.getScene().getWindow();
+            }
+
+            // Si nous n'avons pas pu obtenir la fenêtre, essayer avec d'autres éléments
+            if (stage == null && availableEventsText != null && availableEventsText.getScene() != null) {
+                stage = (Stage) availableEventsText.getScene().getWindow();
+            }
+
+            // Si nous avons trouvé la fenêtre, changer la scène
+            if (stage != null) {
+                stage.setScene(scene);
+                stage.setTitle("Blogs");
+                stage.show();
+                System.out.println("Navigation vers la page des blogs réussie");
+            } else {
+                // Alternative: ouvrir dans une nouvelle fenêtre
+                stage = new Stage();
+                stage.setScene(scene);
+                stage.setTitle("Blogs");
+                stage.show();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de charger la page des blogs: " + e.getMessage());
+        }
+    }
+    
     private void showAlert(Alert.AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+    
+    @FXML
+    public void handleReclamation(ActionEvent event) {
+        try {
+            // Chargement du formulaire de réclamation
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/javaproject/AjouterReclamation.fxml"));
+            Parent root = loader.load();
+            
+            // Création d'une nouvelle scène
+            Scene scene = new Scene(root);
+            
+            // Ajout des styles CSS si nécessaire
+            URL cssUrl = getClass().getResource("/styles/style.css");
+            if (cssUrl != null) {
+                scene.getStylesheets().add(cssUrl.toExternalForm());
+            }
+            
+            // Obtenir la fenêtre de manière sécurisée, que l'événement vienne d'un MenuItem ou d'un Node
+            Stage stage = null;
+            Object source = event.getSource();
+            
+            if (source instanceof MenuItem) {
+                // Si l'événement vient d'un MenuItem
+                if (userInfoText != null && userInfoText.getScene() != null) {
+                    stage = (Stage) userInfoText.getScene().getWindow();
+                } else if (availableEventsText != null && availableEventsText.getScene() != null) {
+                    stage = (Stage) availableEventsText.getScene().getWindow();
+                }
+            } else if (source instanceof Node) {
+                // Si l'événement vient d'un Node (comme un Button)
+                stage = (Stage) ((Node) source).getScene().getWindow();
+            }
+            
+            if (stage == null) {
+                throw new IllegalStateException("Impossible de trouver la fenêtre principale");
+            }
+            
+            // Configuration de la fenêtre
+            stage.setScene(scene);
+            stage.setTitle("Soumettre une réclamation");
+            stage.setWidth(1100); // Même dimensions que dans mainClass
+            stage.setHeight(800);  
+            stage.show();
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors du chargement du formulaire de réclamation: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="Controllers.UpdateReponseDialogController"
+      stylesheets="@../Styles/backoffice.css"
+      spacing="15"
+      style="-fx-padding: 20; -fx-min-width: 500px; -fx-min-height: 300px;">
+
+    <Label text="Modifier la réponse" styleClass="reclamation-detail-title"/>
+
+    <TextArea fx:id="responseTextArea"
+              styleClass="response-textarea"
+              promptText="Modifiez le contenu de la réponse..."
+              wrapText="true"
+              VBox.vgrow="ALWAYS"/>
+
+    <HBox spacing="15" alignment="CENTER_RIGHT">
+        <Button text="Annuler" styleClass="cancel-btn" onAction="#handleCancel"/>
+        <Button text="Mettre à jour" styleClass="submit-btn" onAction="#handleUpdate" fx:id="updateButton"/>
+    </HBox>
+</VBox>
