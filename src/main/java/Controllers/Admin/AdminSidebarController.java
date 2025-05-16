@@ -37,6 +37,12 @@ public class AdminSidebarController implements Initializable {
 
     @FXML
     private Button eventButton;
+    
+    @FXML
+    private HBox excursionHBox;
+
+    @FXML
+    private Button excursionButton;
 
     @FXML
     private HBox reservationHBox;
@@ -76,6 +82,12 @@ public class AdminSidebarController implements Initializable {
     private void handleEventListClick(ActionEvent event) {
         loadPage("EventList.fxml");
         setActiveButton(eventButton);
+    }
+    
+    @FXML
+    private void handleExcursionListClick(ActionEvent event) {
+        loadPage("ExcursionList.fxml");
+        setActiveButton(excursionButton);
     }
 
     @FXML
@@ -181,6 +193,7 @@ public class AdminSidebarController implements Initializable {
         dashboardButton.getStyleClass().remove("active");
         userButton.getStyleClass().remove("active");
         eventButton.getStyleClass().remove("active");
+        excursionButton.getStyleClass().remove("active");
         reservationButton.getStyleClass().remove("active");
 
         // Définir le bouton actif

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="Controllers.Admin.ExcursionEditController"
+      spacing="15" styleClass="form-container"
+      stylesheets="@../../styles/admin-styles.css">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Modifier l'excursion" styleClass="form-title"/>
+
+    <GridPane hgap="15" vgap="15">
+        <Label text="Titre:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="titreField" promptText="Titre de l'excursion" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Destination:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="destinationField" promptText="Destination" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+
+
+        <Label text="Date:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <DatePicker fx:id="datePicker" promptText="Date de l'excursion" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <Label text="Durée (jours):" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <TextField fx:id="dureeField" promptText="Durée en jours" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+        <Label text="Transport:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="transportComboBox" promptText="Moyen de transport" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+        <Label text="Événement associé:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="eventComboBox" promptText="Sélectionner un événement" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+    </GridPane>
+
+    <Label fx:id="errorLabel" styleClass="error-label" visible="false"/>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button fx:id="cancelButton" text="Annuler" onAction="#handleCancel" styleClass="cancel-button"/>
+        <Button fx:id="saveButton" text="Enregistrer" onAction="#handleSave" styleClass="save-button"/>
+    </HBox>
+</VBox>

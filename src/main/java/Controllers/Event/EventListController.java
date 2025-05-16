@@ -1,6 +1,7 @@
 package Controllers.Event;
 
 import Models.Event;
+import Models.Excursion;
 import Models.User;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -36,11 +37,13 @@ import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import Services.AuthService;
 import Services.EventService;
+import Services.ExcursionService;
 import Services.ReservationService;
 import Services.RoleService;
 import Controllers.ClientDashboardController;
 import javafx.stage.Modality;
 import Controllers.Event.AvisController;
+import Controllers.Event.ExcursionViewController;
 import Services.HolidayService;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.ButtonType;
@@ -89,6 +92,7 @@ public class EventListController implements Initializable {
     private RoleService roleService;
     private ObservableList<Event> eventList;
     private HolidayService holidayService;
+    private ExcursionService excursionService;
 
     public EventListController() {
         eventService = EventService.getInstance();
@@ -96,6 +100,7 @@ public class EventListController implements Initializable {
         roleService = RoleService.getInstance();
         eventList = FXCollections.observableArrayList();
         holidayService = HolidayService.getInstance();
+        excursionService = ExcursionService.getInstance();
     }
 
     @Override
@@ -648,6 +653,24 @@ public class EventListController implements Initializable {
             avisBtn.setOnAction(e -> handleAvisEvent(e));
             avisBtn.setUserData(event); // Stocker l'événement dans le bouton
             buttonBox.getChildren().add(avisBtn);
+
+            // Vérifier si une excursion est associée à cet événement
+            try {
+                boolean hasExcursion = excursionService.hasExcursionsForEvent(event.getId());
+                if (hasExcursion) {
+                    // Bouton Voir l'excursion
+                    Button excursionBtn = new Button("Voir l'excursion");
+                    excursionBtn.setPrefWidth(100); // Augmenter la largeur du bouton
+                    excursionBtn.setMinWidth(100); // Définir une largeur minimale
+                    excursionBtn.setMaxWidth(100); // Définir une largeur maximale
+                    excursionBtn.setStyle("-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5 10; -fx-background-radius: 5;");
+                    excursionBtn.setOnAction(e -> handleViewExcursionFromList(event));
+                    buttonBox.getChildren().add(excursionBtn);
+                }
+            } catch (SQLException e) {
+                System.err.println("Erreur lors de la vérification des excursions: " + e.getMessage());
+                e.printStackTrace();
+            }
 
             // Bouton Réserver (pour tous les utilisateurs sauf l'organisateur)
             if (!(isOrganiser)) {
@@ -1206,6 +1229,54 @@ public class EventListController implements Initializable {
             }
         } catch (IOException e) {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors du chargement de la vue des avis", e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Afficher l'excursion associée à un événement
+     * @param event L'événement dont on veut voir l'excursion
+     */
+    private void handleViewExcursionFromList(Event event) {
+        try {
+            // Récupérer les excursions associées à cet événement
+            List<Excursion> excursions = excursionService.getExcursionsByEventId(event.getId());
+            if (excursions.isEmpty()) {
+                showAlert(Alert.AlertType.INFORMATION, "Information", "Aucune excursion", "Aucune excursion n'est associée à cet événement.");
+                return;
+            }
+
+            // Prendre la première excursion (normalement il n'y en a qu'une par événement)
+            Excursion excursion = excursions.get(0);
+
+            // Charger la vue de l'excursion
+            File file = new File("src/main/resources/fxml/event/ExcursionView.fxml");
+            if (file.exists()) {
+                URL url = file.toURI().toURL();
+                FXMLLoader loader = new FXMLLoader(url);
+                Parent root = loader.load();
+
+                // Récupérer le contrôleur
+                ExcursionViewController controller = loader.getController();
+
+                // Passer l'excursion au contrôleur
+                controller.setExcursion(excursion);
+
+                // Créer une nouvelle scène
+                Scene scene = new Scene(root);
+
+                // Créer une nouvelle fenêtre
+                Stage stage = new Stage();
+                stage.setTitle("Excursion - " + excursion.getTitre());
+                stage.setScene(scene);
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.initOwner(eventsContainer.getScene().getWindow());
+                stage.showAndWait();
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Fichier FXML non trouvé", file.getAbsolutePath());
+            }
+        } catch (SQLException | IOException e) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de l'ouverture de la page de l'excursion", e.getMessage());
             e.printStackTrace();
         }
     }

@@ -1,9 +1,11 @@
 package Controllers.Event;
 
 import Models.Event;
+import Models.Excursion;
 import Models.Panier;
 import Models.ReserverEvent;
 import Models.User;
+import Services.ExcursionService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,6 +34,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class EventViewController implements Initializable {
@@ -77,17 +80,22 @@ public class EventViewController implements Initializable {
     @FXML
     private Button avisButton;
 
+    @FXML
+    private Button viewExcursionButton;
+
     private Event event;
     private AuthService authService;
     private RoleService roleService;
     private ReservationService reservationService;
     private PanierService panierService;
+    private ExcursionService excursionService;
 
     public EventViewController() {
         authService = AuthService.getInstance();
         roleService = RoleService.getInstance();
         reservationService = ReservationService.getInstance();
         panierService = new PanierService();
+        excursionService = ExcursionService.getInstance();
     }
 
     @Override
@@ -140,6 +148,22 @@ public class EventViewController implements Initializable {
         String statusStyleClass = getStatusStyleClass(event.getStatus());
         statusLabel.getStyleClass().clear();
         statusLabel.getStyleClass().add(statusStyleClass);
+
+        // Vérifier si une excursion est associée à cet événement
+        try {
+            boolean hasExcursion = excursionService.hasExcursionsForEvent(event.getId());
+            if (viewExcursionButton != null) {
+                viewExcursionButton.setVisible(hasExcursion);
+                viewExcursionButton.setManaged(hasExcursion);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la vérification des excursions: " + e.getMessage());
+            e.printStackTrace();
+            if (viewExcursionButton != null) {
+                viewExcursionButton.setVisible(false);
+                viewExcursionButton.setManaged(false);
+            }
+        }
 
         // Configurer les boutons en fonction des droits de l'utilisateur
         try {
@@ -349,6 +373,47 @@ public class EventViewController implements Initializable {
             stage.showAndWait();
         } catch (IOException e) {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors du chargement de la vue des avis: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void handleViewExcursion() {
+        try {
+            // Récupérer les excursions associées à cet événement
+            List<Excursion> excursions = excursionService.getExcursionsByEventId(this.event.getId());
+            if (excursions.isEmpty()) {
+                showAlert(Alert.AlertType.INFORMATION, "Information", "Aucune excursion", "Aucune excursion n'est associée à cet événement.");
+                return;
+            }
+
+            // Prendre la première excursion (normalement il n'y en a qu'une par événement)
+            Excursion excursion = excursions.get(0);
+
+            // Charger la vue de l'excursion
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/event/ExcursionView.fxml"));
+            Parent root = loader.load();
+
+            // Récupérer le contrôleur
+            ExcursionViewController controller = loader.getController();
+
+            // Passer l'excursion au contrôleur
+            controller.setExcursion(excursion);
+
+            // Créer une nouvelle scène
+            Scene scene = new Scene(root);
+
+            // Créer une nouvelle fenêtre
+            Stage stage = new Stage();
+            stage.setTitle("Excursion - " + excursion.getTitre());
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(viewExcursionButton.getScene().getWindow());
+
+            // Afficher la fenêtre
+            stage.showAndWait();
+        } catch (SQLException | IOException e) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de l'ouverture de la page de l'excursion: " + e.getMessage());
             e.printStackTrace();
         }
     }
