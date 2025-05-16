@@ -59,7 +59,7 @@ public class Launcher {
                 return;
             }
 
-            // Maven repository paths (most common for JavaFX)
+            // Maven repository paths (most common for JavafX)
             String mavenRepo = userHome + "/.m2/repository/org/openjfx";
             String[] mavenModules = {
                 mavenRepo + "/javafx-controls/" + javafxVersion,
